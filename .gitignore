@@ -2,4 +2,3 @@ build
 devel
 logs
 .catkin*
-data
