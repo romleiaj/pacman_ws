@@ -7,3 +7,6 @@
 [submodule "src/dependencies/serial"]
 	path = src/dependencies/serial
 	url = https://github.com/wjwwood/serial.git
+[submodule "src/ethz_piksi_ros"]
+	path = src/ethz_piksi_ros
+	url = https://github.com/ethz-asl/ethz_piksi_ros.git
