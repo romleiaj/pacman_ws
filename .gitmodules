@@ -10,3 +10,6 @@
 [submodule "src/ethz_piksi_ros"]
 	path = src/ethz_piksi_ros
 	url = https://github.com/ethz-asl/ethz_piksi_ros.git
+[submodule "src/ouster"]
+	path = src/ouster
+	url = https://github.com/CPFL/ouster.git
