@@ -1,6 +1,3 @@
-[submodule "src/hls_lfcd_lds_driver"]
-	path = src/hls_lfcd_lds_driver
-	url = https://github.com/ROBOTIS-GIT/hls_lfcd_lds_driver.git
 [submodule "src/roboteq"]
 	path = src/roboteq
 	url = https://github.com/g/roboteq.git
@@ -10,6 +7,6 @@
 [submodule "src/ethz_piksi_ros"]
 	path = src/ethz_piksi_ros
 	url = https://github.com/ethz-asl/ethz_piksi_ros.git
-[submodule "src/ouster"]
-	path = src/ouster
-	url = https://github.com/CPFL/ouster.git
+[submodule "src/ouster_example"]
+	path = src/ouster_example
+	url = https://github.com/ouster-lidar/ouster_example.git

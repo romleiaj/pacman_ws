@@ -3,8 +3,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 source "${DIR}/setup.sh"
 
-roslaunch --wait pacman_launch os1.launch \
-    lidar_address:="192.168.0.100" \
-    pc_address:="192.168.0.1" \
-    replay:=false \
-    pointcloud_mode:="XYZIR"
+roslaunch --wait pacman_launch piksi_multi_rover.launch \
+    interface:="tcp" \
+    tcp_addr:="192.168.1.53" \
+    base_station_ip:="192.168.0.1"
