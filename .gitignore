@@ -1,4 +1,6 @@
-build
-devel
+/build
+/devel
 logs
 .catkin*
+/src/pacman_simulation/models/**
+!/src/pacman_simulation/models/READ_ME.txt
