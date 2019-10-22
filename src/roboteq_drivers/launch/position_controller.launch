@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="motor_wrapper" pkg="roboteq_drivers" type="motor_wrapper" required="true" output="screen">
+        <param name="usb_device" value="/dev/ttyACM0"/>
+        <param name="write_period" value=".05"/>
+        <param name="command_topic_name" value="roboteq_motor_command"/>
+    </node>
+</launch>
