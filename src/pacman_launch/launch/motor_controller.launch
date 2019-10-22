@@ -1,8 +1,11 @@
+<?xml version="1.0"?>
 <launch>
-  <arg name="port" default="/dev/ttyACM0" />
-  <node pkg="roboteq_driver" type="driver_node" name="roboteq_driver" output="screen">
-    <rosparam param="channels">["left", "right"]</rosparam>
-    <param name="port" value="$(arg port)" />
-    <param name="baud" value="115200" />
-  </node>
+    <node name="motor_wrapper" pkg="roboteq_drivers" type="motor_wrapper" required="true" output="screen">
+        <param name="usb_device" value="/dev/ttyACM0"/>
+        <param name="write_period" value="0.01"/>
+        <param name="command_topic_name" value="roboteq_motor_command"/>
+    </node>
+    <node name="cmdvel2go" pkg="roboteq_drivers" type="cmdvel2go.py" output="screen" required="true">
+    </node>
+
 </launch>
