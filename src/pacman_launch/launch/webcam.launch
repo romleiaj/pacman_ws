@@ -22,5 +22,7 @@
         <arg name="flip_vertical" value="false" />
         <!-- visualize on an image_view window the stream generated -->
         <arg name="visualize" value="false" />
+        <arg name="width" value="2304"/>
+        <arg name="height" value="1296"/>
    </include>
 </launch>
