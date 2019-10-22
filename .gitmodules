@@ -10,3 +10,6 @@
 [submodule "src/ouster_example"]
 	path = src/ouster_example
 	url = https://github.com/ouster-lidar/ouster_example.git
+[submodule "src/dependencies/multimaster_fkie"]
+	path = src/dependencies/multimaster_fkie
+	url = https://github.com/fkie/multimaster_fkie
