@@ -4,3 +4,5 @@ logs
 .catkin*
 /src/pacman_simulation/models/**
 !/src/pacman_simulation/models/READ_ME.txt
+*.bag
+src/runscripts/jetson/open_tunnel.sh
