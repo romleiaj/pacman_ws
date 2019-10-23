@@ -13,3 +13,6 @@
 [submodule "src/dependencies/multimaster_fkie"]
 	path = src/dependencies/multimaster_fkie
 	url = https://github.com/fkie/multimaster_fkie
+[submodule "src/semantic-segmentation-pytorch"]
+	path = src/semantic-segmentation-pytorch
+	url = https://github.com/romleiaj/semantic-segmentation-pytorch
