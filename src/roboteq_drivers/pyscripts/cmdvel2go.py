@@ -7,7 +7,7 @@ from std_msgs.msg import Int32MultiArray
 def cmdvel2go(data):
     global pub
     v = data.linear.x
-    w = (data.angular.z) * 2
+    w = data.angular.z
 
     scale = 500
     Lmot = ((v + w) / 2) * scale

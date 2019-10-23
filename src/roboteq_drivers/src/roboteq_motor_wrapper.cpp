@@ -49,9 +49,11 @@ int main(int argc, char** argv) {
     RoboteqMotorWrapper motor_wrapper;
     
     int status = motor_wrapper.initializeHardware();
-    if (status != RQ_SUCCESS) {
+    while (status != RQ_SUCCESS) {
         ROS_ERROR_STREAM("Error connecting to the device: " << status << ".");
-        return 0;
+        ROS_ERROR_STREAM("Retrying.");
+        sleepms(1000);
+        status = motor_wrapper.initializeHardware();
     }
     
     ros::Timer write_timer = nh.createTimer(
