@@ -18,6 +18,13 @@ RoboteqMotorWrapper::RoboteqMotorWrapper() : nh(""), priv_nh("~") {
 	}
 	motor_command_sub = nh.subscribe(command_sub_topic_name, 10, 
 	    &RoboteqMotorWrapper::onMotorCommand, this);
+	estop_sub = nh.subscribe("/joy", 10, 
+	    &RoboteqMotorWrapper::onEStop, this);
+	while (motor_command_sub.getNumPublishers() < 1){
+		ROS_INFO_STREAM("No publishers on " << command_sub_topic_name << ".");	
+		ROS_INFO_STREAM("Waiting...");
+		sleepms(1000);
+	}
 }
 
 RoboteqMotorWrapper::~RoboteqMotorWrapper() {
@@ -32,11 +39,40 @@ void RoboteqMotorWrapper::onMotorCommand(const std_msgs::Int32MultiArray& msg) {
     values = msg.data;
 }
 
-void RoboteqMotorWrapper::writeCallback(const ros::TimerEvent&) {
-    for (size_t i = 0; i < values.size(); i++) {
-        int status = device.SetCommand(_GO, i + 1, values[i]);
+void RoboteqMotorWrapper::onEStop(const sensor_msgs::Joy& msg) {
+    if (msg.buttons[1] == 1) { // EMERGENCY STOP
+        int status = device.SetCommand(_EX);
         if (status != RQ_SUCCESS) {
-            ROS_ERROR_STREAM("SetCommand(_GO, " << i + 1 <<", " << values[i] <<") failed: " << status);
+            ROS_ERROR_STREAM("SetCommand(_EX) failed: " << status);
+        }
+	ROS_INFO("EMERGENCY STOP ACTIVATED");
+        sleepms(10);
+    } else if (msg.buttons[2] == 1) { // RELEASE ESTOP
+        int status = device.SetCommand(_MG);
+        if (status != RQ_SUCCESS) {
+            ROS_ERROR_STREAM("SetCommand(_MG) failed: " << status);
+        }
+    	ROS_INFO("Released Emergency Stop.");
+        sleepms(10);
+    }
+}
+
+//void RoboteqMotorWrapper::readCallback(const ros::TimerEvent&){
+
+//}
+
+void RoboteqMotorWrapper::writeCallback(const ros::TimerEvent&) {
+    std::vector<int> cur_values = values;
+    if (motor_command_sub.getNumPublishers() < 1) {
+        ROS_ERROR_STREAM("Roboteq Command publisher lost!");
+	for (int j=0; j<cur_values.size(); j++){
+		cur_values[j] = 0;
+	}
+    }
+    for (size_t i = 0; i < cur_values.size(); i++) {
+        int status = device.SetCommand(_GO, i + 1, cur_values[i]);
+        if (status != RQ_SUCCESS) {
+            ROS_ERROR_STREAM("SetCommand(_GO, " << i + 1 <<", " << cur_values[i] <<") failed: " << status);
         }
         sleepms(10);
     }
@@ -59,7 +95,9 @@ int main(int argc, char** argv) {
     ros::Timer write_timer = nh.createTimer(
         ros::Duration(motor_wrapper.getWritePeriod()), 
         &RoboteqMotorWrapper::writeCallback, &motor_wrapper);
-        
+
+    //ros::Timer read_timer = nh.createTimer(ros::Duration(motor_wrapper.getReadPeriod()),&RoboteQMotorWrapper::readCallback, &motor_wrapper);
+    
     ROS_INFO("Spinning...");
     
     ros::spin();

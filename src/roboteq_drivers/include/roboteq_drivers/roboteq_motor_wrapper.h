@@ -10,6 +10,7 @@
 
 #include <ros/ros.h>
 #include <std_msgs/Int32MultiArray.h>
+#include <sensor_msgs/Joy.h>
 
 class RoboteqMotorWrapper {
     private:
@@ -20,6 +21,7 @@ class RoboteqMotorWrapper {
         ros::NodeHandle nh;
         ros::NodeHandle priv_nh;
         ros::Subscriber motor_command_sub;
+        ros::Subscriber estop_sub;
         
         RoboteqDevice device;
         
@@ -38,6 +40,7 @@ class RoboteqMotorWrapper {
         double getWritePeriod() { return write_period; }
         
         void onMotorCommand(const std_msgs::Int32MultiArray& msg);
+        void onEStop(const sensor_msgs::Joy& msg);
         void writeCallback(const ros::TimerEvent&);
         
 };

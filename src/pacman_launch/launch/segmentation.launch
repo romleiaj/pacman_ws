@@ -1,0 +1,9 @@
+<launch>
+    <arg name="cfg" default="ade20k-mobilenetv2dilated-c1_deepsup"/>
+    <node pkg="semantic_segmentation_pytorch" type="ros_wrapper.py" name="semantic_segmentation" output="screen">
+        <param name="gpu" value="0"/>
+        <param name="cfg" value="$(find semantic_segmentation_pytorch)/src/config/$(arg cfg).yaml"/>
+        <param name="img_in" value="/webcam/image_raw"/>
+        <param name="img_out" value="/webcam/image_segmented"/>
+    </node>
+</launch>
