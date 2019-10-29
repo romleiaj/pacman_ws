@@ -5,12 +5,13 @@
 		<uri>model://sun</uri>
 	    </include>
 	    <include>
-		<uri>model://ground_plane</uri>
-	    </include>
-	    <include>
-	      <uri>model://pacman</uri>
+	      <uri>model://pacman_equiv</uri>
 	      <static>false</static>
 	      <pose> 0 0 .25 0 0 0 </pose>
+	    </include>
+	    <include>
+	      <uri>model://enviroment</uri>
+	      <pose> 0 0 0 0 0 0 </pose>
 	    </include>
      </world>
 

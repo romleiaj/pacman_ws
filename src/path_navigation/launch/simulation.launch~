@@ -1,0 +1,5 @@
+<launch>
+
+  <node pkg="path_navigation" name="path_navigation" type="PathNavigation.py"/>
+
+</launch>
