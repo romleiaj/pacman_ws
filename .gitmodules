@@ -16,3 +16,6 @@
 [submodule "src/semantic-segmentation-pytorch"]
 	path = src/semantic-segmentation-pytorch
 	url = https://github.com/romleiaj/semantic-segmentation-pytorch
+[submodule "src/differential-drive"]
+	path = src/differential-drive
+	url = https://github.com/romleiaj/differential-drive
