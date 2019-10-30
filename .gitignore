@@ -1,6 +1,7 @@
 /build
 /devel
 logs
+install
 .catkin*
 /src/pacman_simulation/models/**
 !/src/pacman_simulation/models/READ_ME.txt
