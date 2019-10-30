@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<sdf version="1.5">
+  <model name="enviroment">
+    <static>true</static>
+    <link name="base">
+      <gravity>0</gravity>
+      <collision name="collision">
+	<geometry>
+	  <mesh>
+	    <uri>model://enviroment/meshes/enviroment.dae</uri>
+	  </mesh>
+	</geometry>
+      </collision>
+      <visual name="visual">
+	<geometry>
+	  <mesh>
+	    <uri>model://enviroment/meshes/enviroment.dae</uri>
+	  </mesh>
+	</geometry>
+	<material>
+	  <script>
+	    <uri>model://enviroment/meshes/enviroment.dae</uri>
+	  </script>
+	</material>
+      </visual>
+    </link>
+  </model>
+</sdf>

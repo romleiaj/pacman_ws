@@ -25,7 +25,7 @@ class PathNavigation():
         self.MOVE_AND_CHECK = 0.33
 
         self.TURN_DISTANCE = 0.25
-        self.SPEED = 0.02
+        self.SPEED = 0.1
         self.ANGULAR_VELOCITY = 1
 
         self.FORWARD_THRESHOLD = .25  # the distance away from a wall to trigger hitwall
@@ -40,7 +40,6 @@ class PathNavigation():
             Vector3(-1.0 * self.SPEED, 0, 0), Vector3(0, 0, 0))
         self.orientation = 0  # in radians, [-pi, pi]
         self.STOP = Twist()
-        rospy.init_node("PathNavigation")  # this is required for any ros thing to work
         self.pub = rospy.Publisher(cmd_vel_topic, Twist, queue_size=1)
         self.pub.publish(self.RIGHT)  # the first time rarely works
         self.odom_reader = OdomReader(odom_topic)
@@ -121,6 +120,7 @@ class PathNavigation():
         ----------
         Make the backtracking closed loop
         """
+        rospy.loginfo("IN MOVE FUNCTION")
         if direction == 'forward':
             self.pub.publish(self.ramp_down(self.FORWARD, distance))
         elif direction == 'backward':
@@ -142,17 +142,11 @@ class PathNavigation():
         #print("in move the initial location is {}".format(initial_loc))
         new_loc = self.get_location()
 
-        num_steps = 0  # The number of times we've checked the distances
 
         while(np.linalg.norm(initial_loc - new_loc) < distance):  # check if it's moved enough
             rospy.sleep(self.SMALL_WAIT)  # Maybe not needed
-            if num_steps < 0:
-                print("backtracked to approximately starting location")
-                self.pub.publish(self.STOP)
-                return False  # the action wasn't executed successfully
-            num_steps -= 1  # go back the same number of steps, only an aproximation
-
             new_loc = self.get_location()  # get the new rotation
+
         movement = initial_loc - new_loc
         self.orientation = np.arctan2(movement[1], movement[0])
         self.pub.publish(self.STOP)  # make sure it stops at the end
@@ -261,8 +255,9 @@ class PathNavigation():
 
 if __name__ == "__main__":
     
-    cmd_vel_topic = rospy.get_param('cmd_vel_topic', 'pacman_equiv/cmd_vel')
-    odom_topic = rospy.get_param('odom_topic', 'pacman_equiv/odom')
+    rospy.init_node("PathNavigation")  # this is required for any ros thing to work
+    cmd_vel_topic = rospy.get_param('~cmd_vel_topic', 'pacman_equiv/cmd_vel')
+    odom_topic = rospy.get_param('~odom_topic', 'pacman_equiv/odom')
     print(cmd_vel_topic)
 
     mover = PathNavigation(cmd_vel_topic, odom_topic)
