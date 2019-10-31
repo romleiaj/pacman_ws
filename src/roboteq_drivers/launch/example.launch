@@ -3,7 +3,10 @@
     <node name="motor_wrapper" pkg="roboteq_drivers" type="motor_wrapper" required="true" output="screen">
         <param name="usb_device" value="/dev/ttyACM0"/>
         <param name="write_period" value="0.01"/>
-        <param name="command_topic_name" value="roboteq_motor_command"/>
+        <param name="read_period" value="0.01"/>
+        <param name="command_topic_name" value="roboteq_cmd"/>
+        <param name="encoderR_topic_name" value="rmotor_encoder"/>
+        <param name="encoderL_topic_name" value="lmotor_encoder"/>
     </node>
     <node name="cmdvel2go" pkg="roboteq_drivers" type="cmdvel2go.py" output="screen" required="true">
     </node>

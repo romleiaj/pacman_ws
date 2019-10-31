@@ -7,9 +7,10 @@ from std_msgs.msg import Int32MultiArray
     
 L = 0.5 # wheelbase in meters
 R = 0.127 # wheel radius in meters
-GEAR_RATIO = 26.25
-MAX_RPM = (7100 / GEAR_RATIO)
-RPM_PER_GO = MAX_RPM / 1000.
+GEAR_RATIO = 28.60839844
+MAX_MOTOR_RPM = 3550
+MAX_WHEEL_RPM = (MAX_MOTOR_RPM / GEAR_RATIO)
+RPM_PER_GO = MAX_WHEEL_RPM / 1000.
 RADS_PER_GO = (RPM_PER_GO*2*np.pi)/60.
 
 def cmdvel2go(data):
@@ -39,8 +40,8 @@ def cmdvel2go(data):
 def main():
     rospy.init_node("cmdvel2GO")
     global pub
-    pub = rospy.Publisher("/roboteq_motor_command", Int32MultiArray, queue_size=10)
-    
+    pub_topic = rospy.get_param("~pub_topic", default="roboteq_cmd")
+    pub = rospy.Publisher(pub_topic, Int32MultiArray, queue_size=10)    
     rospy.Subscriber("/cmd_vel", Twist, cmdvel2go)
     
     rospy.loginfo("Waiting for messages on /cmd_vel...")
