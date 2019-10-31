@@ -7,7 +7,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 trap "{ tmux kill-session -t $SESSION ; exit; }" SIGTERM SIGINT SIGKILL
 
 tmux new-session -d -s $SESSION -n "core"
-tmux send-keys -t $SESSION:0 "source $DIR/00_launch_core.sh" C-m
+tmux send-keys -t $SESSION:0 "source $DIR/00_core.sh" C-m
 
 # Keep process alive so we can kill it
 sleep infinity
