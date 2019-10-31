@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="read_image" pkg="path_mapping" type="read_image.py" required="true" output="screen">
+        <param name="homography" value="$(find pacman_config)/homography.yaml"/>
+    </node>
+</launch>
