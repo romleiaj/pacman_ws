@@ -60,7 +60,7 @@ class PathNavigation():
 
         # User specified tolerance and gains
         distance_tolerance = 0.6
-        lin_vel = .2 #.2 worked
+        lin_vel = .4 #.2 worked
         Kp_w = 6
         #Ki_w = 1
         #self.ang_vel.setPoint(0)
