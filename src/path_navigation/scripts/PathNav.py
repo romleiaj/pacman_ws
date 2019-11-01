@@ -2,8 +2,8 @@
 import rospy
 from geometry_msgs.msg  import Twist, Vector3
 from nav_msgs.msg import Odometry
-from math import pow,atan2,sqrt,pi
-from turtlesim.msg import Pose
+from math import atan2, sqrt, pi
+from pacman_msgs.msg import PointArray
 from PID import PID
 
 import numpy as np
@@ -21,7 +21,8 @@ class PathNavigation():
         self.velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size=1)
         self.odom_subscriber = rospy.Subscriber(odom_topic, Odometry, self.odom_callback)
         self.odom = Odometry()
-        #self.point_subscriber = rospy.Subscriber(filtered_points_topic, tuple, self.point_queue_callback)
+        self.point_subscriber = rospy.Subscriber("/path_points", PointArray, 
+                self.point_queue_callback)
         self.queue = []
         self.rate = rospy.Rate(100)
         #self.ang_vel = PID()
@@ -30,7 +31,8 @@ class PathNavigation():
     def odom_callback(self, data):
         self.odom = data
         
-    def point_queue_callback(self, array): #FIFO Queue
+    def point_queue_callback(self, msg): #FIFO Queue
+        array = msg.points
         #dimension = np.asarray(array).shape
         for point in array:
             self.queue.insert(0, point)
@@ -54,8 +56,8 @@ class PathNavigation():
         pose = self.odom.pose.pose.position
         goal_point = self.get_next_point()
         #goal_point = np.asarray(goal_point) #I dont think this is needed
-        goal_pose_x = goal_point[0] # x value
-        goal_pose_y = goal_point[1] # y value
+        goal_pose_x = goal_point.x # x value
+        goal_pose_y = goal_point.y # y value
         vel_msg = Twist()
 
         # User specified tolerance and gains
@@ -83,7 +85,6 @@ class PathNavigation():
                     turn_factor = 0
                 vel_msg.linear.x = lin_vel * turn_factor
                 #print(vel_msg.linear.x)
-                print(turn_factor)
                 #angular velocity in the z-axis: Add Differential
                 vel_msg.angular.z = Kp_w * (theta - yaw)
                 
@@ -105,6 +106,14 @@ if __name__ == '__main__':
         robot = PathNavigation()
         #print(cmd_vel_topic)
         
+        while not rospy.is_shutdown(): #len(robot.queue) > 0:
+            if len(robot.queue) > 0:
+                robot.move2point()
+        
+        rospy.spin()
+       
+        raise SystemExit
+
         robot.point_queue_callback([(0.755172, -0.013588)])
         robot.point_queue_callback([(0.755172, -0.013588)])
         robot.point_queue_callback([(2.012774, -0.070005)])
@@ -167,17 +176,5 @@ if __name__ == '__main__':
         robot.point_queue_callback([(-3.255182, 0.344254)])
         robot.point_queue_callback([(-1.638494, 0.005272)])
         robot.point_queue_callback([(0.012957, -0.012112)])
-        #arr = np.asarray(robot.queue)
-        #x = [pt[0] for pt in arr]
-        #y = [pt[1] for pt in arr]
-        #plt.plot(x, y, 'ro')
-        #plt.show()
-        
-        # while  true:
-        #print(robot.queue)
-        while len(robot.queue) > 0:
-            robot.move2point()
-        
-        rospy.spin()
-
-    except rospy.ROSInterruptException: pass
+    except rospy.ROSInterruptException:
+        pass
