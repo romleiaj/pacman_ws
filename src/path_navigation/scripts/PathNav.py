@@ -26,6 +26,11 @@ class PathNavigation():
         self.queue = []
         self.rate = rospy.Rate(100)
         #self.ang_vel = PID()
+        
+        # User specified tolerance and gains
+        self.distance_tolerance = 0.6
+        self.lin_vel = .4 #.2 worked
+        self.Kp_w = 6
 
     #Callback function implementing the odom value received
     def odom_callback(self, data):
@@ -34,7 +39,28 @@ class PathNavigation():
     def point_queue_callback(self, msg): #FIFO Queue
         array = msg.points
         #dimension = np.asarray(array).shape
+        i = 0
+        distance_to = 0
+        distnace_to_prev = 0
+        i_valid = False
         for point in array:
+            #self.queue.insert(0, point)
+            distance_to_prev = distance_to
+            distance_to = self.get_distance(point[0], point[1])
+            if i >= 2: # valid checking
+                if (distance_to - distance_to_prev < 0) and (distnace_to <= self.distance_tolerance):
+                    # closest to robot position
+                    i_valid = True
+                    break
+                if i > floor(len(array)/2):
+                    rospy.logerr("there's a problem in point_queue_callback: line.56")
+                    break # # If i is larger than half of the array segmentation can't keep up with speed
+            i += 1
+        index_offset = 1 # Added to account for latency (will be affected by point density in line)
+        filtered_points = array[i+index_offset:]
+        print("Split at: " + str(i) + "/" + str(len(array)))
+        
+        for point in filtered_points:
             self.queue.insert(0, point)
         print("Q: " + str(len(self.queue)))
         
@@ -59,16 +85,6 @@ class PathNavigation():
         goal_pose_x = goal_point.x # x value
         goal_pose_y = goal_point.y # y value
         vel_msg = Twist()
-
-        # User specified tolerance and gains
-        distance_tolerance = 0.6
-        lin_vel = .4 #.2 worked
-        Kp_w = 6
-        #Ki_w = 1
-        #self.ang_vel.setPoint(0)
-        #self.ang_vel.Kp = 0
-        #self.ang_vel.Kd = 0
-        #self.ang_vel.Ki = 0
         
         while self.get_distance(goal_pose_x, goal_pose_y) >= distance_tolerance:
             orient = self.odom.pose.pose.orientation
