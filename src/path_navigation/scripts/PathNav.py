@@ -17,14 +17,13 @@ class PathNavigation():
 
     def __init__(self):
         #Creating node,publisher and subscriber
-        rospy.init_node('PathNav_node', anonymous=True)
         self.velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size=1)
         self.odom_subscriber = rospy.Subscriber(odom_topic, Odometry, self.odom_callback)
         self.odom = Odometry()
         self.point_subscriber = rospy.Subscriber("/path_points", PointArray, 
                 self.point_queue_callback)
         self.queue = []
-        self.rate = rospy.Rate(100)
+        self.rate = rospy.Rate(50)
         #self.ang_vel = PID()
         
         # User specified tolerance and gains
@@ -62,11 +61,13 @@ class PathNavigation():
         
         for point in filtered_points:
             self.queue.insert(0, point)
+            self.in_op = True
         print("Q: " + str(len(self.queue)))
         
     def get_next_point(self):
         if len(self.queue) < 1: # No points in queue
             print("no points in queue")
+            self.in_op = False
             raise Queue.Empty
         else:
             return self.queue.pop()
@@ -80,29 +81,34 @@ class PathNavigation():
 
     def move2point(self):
         pose = self.odom.pose.pose.position
-        goal_point = self.get_next_point()
+
+        try:
+            goal_point = self.get_next_point()
+        except Queue.Empty:
+            return
         #goal_point = np.asarray(goal_point) #I dont think this is needed
         goal_pose_x = goal_point.x # x value
         goal_pose_y = goal_point.y # y value
         vel_msg = Twist()
         
-        while self.get_distance(goal_pose_x, goal_pose_y) >= distance_tolerance:
+        while self.get_distance(goal_pose_x, goal_pose_y) >= self.distance_tolerance:
+
             orient = self.odom.pose.pose.orientation
             [roll, pitch, yaw] = tf.transformations.euler_from_quaternion([orient.x, orient.y, orient.z, orient.w])
             theta = atan2(goal_pose_y - pose.y, goal_pose_x - pose.x)
             
             #Porportional Controller
             
-            if len(self.queue) >= 0:
+            if self.in_op:
                 #linear velocity in the x-axis:
                 turn_angle = pi/2
                 turn_factor = (turn_angle - abs(theta - yaw)) / turn_angle
                 if turn_factor < 0:
                     turn_factor = 0
-                vel_msg.linear.x = lin_vel * turn_factor
+                vel_msg.linear.x = self.lin_vel * turn_factor
                 #print(vel_msg.linear.x)
                 #angular velocity in the z-axis: Add Differential
-                vel_msg.angular.z = Kp_w * (theta - yaw)
+                vel_msg.angular.z = self.Kp_w * (theta - yaw)
                 
             else: # Last element of queue
                 vel_msg.linear.x = 0
@@ -112,11 +118,17 @@ class PathNavigation():
             #Publishing our vel_msg
             self.velocity_publisher.publish(vel_msg)
             self.rate.sleep()
-        self.velocity_publisher.publish(vel_msg)
+        
+        if len(self.queue) == 0:
+            self.in_op = False
+            vel_msg.linear.x = 0
+            vel_msg.angular.z = 0
+            self.velocity_publisher.publish(vel_msg)
 
 if __name__ == '__main__':
     try:
         #Testing our function
+        rospy.init_node('PathNav', anonymous=True)
         cmd_vel_topic = rospy.get_param('~cmd_vel_topic', 'pacman_equiv/cmd_vel')
         odom_topic = rospy.get_param('~odom_topic', 'pacman_equiv/odom')
         robot = PathNavigation()

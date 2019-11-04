@@ -1,6 +1,3 @@
-[submodule "src/roboteq"]
-	path = src/roboteq
-	url = https://github.com/g/roboteq.git
 [submodule "src/dependencies/serial"]
 	path = src/dependencies/serial
 	url = https://github.com/wjwwood/serial.git

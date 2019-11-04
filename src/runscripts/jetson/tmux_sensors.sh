@@ -10,7 +10,7 @@ tmux new-session -d -s $SESSION -n "MotorControl"
 tmux send-keys -t $SESSION:0 "source $DIR/04_motor_control.sh" C-m
 
 sleep 1
-tmux new-session -t $SESSION:1 -n "os1_LiDAR"
+tmux new-window -t $SESSION:1 -n "os1_LiDAR"
 tmux send-keys -t $SESSION:1 "source $DIR/01_os1.sh" C-m
 
 sleep 1

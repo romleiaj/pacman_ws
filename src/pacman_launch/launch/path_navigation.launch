@@ -1,0 +1,8 @@
+<launch>
+
+  <node pkg="path_navigation" output="screen" name="PathNav" type="PathNav.py">
+  	<param name="cmd_vel_topic" type="string" value="/cmd_vel"/>
+  	<param name="odom_topic" type="string" value="/odometry/filtered"/>
+  </node>
+
+</launch>
