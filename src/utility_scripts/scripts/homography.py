@@ -24,6 +24,7 @@ def compute_homography(
     ax1.imshow(reference_image)
     # ax2.imshow(np.zeros(output_size).astype(np.uint8))
     # Major ticks every 20, minor ticks every 5
+
     x_ticks = np.arange(-1 * output_size[0] / 2.0,
                         output_size[0] / 2.0 + 1,
                         output_size[0] / 10.0)
@@ -70,7 +71,7 @@ def parse_args():
         default=1,
         help="The size in world units of a tile",
         type=float)
-    parser.add_argument("--output-size", default=(100, 100), type=tuple)
+    parser.add_argument("--output-size", default=(100, 100), nargs="+", type=int, help="<x> <y>" )
     parser.add_argument("--output-file", default="homography.yaml", type=str)
     parser.add_argument(
         "--calib-image",
@@ -86,14 +87,21 @@ if __name__ == "__main__":
         args.calib_image,
         args.num_points,
         args.tile_size,
-        args.output_size)
+        tuple(args.output_size))
     with open(args.output_file, 'w') as f:
-        yaml.dump(homography.tolist(), f)
+        pdb.set_trace()
+        img = cv2.imread(args.calib_image)
+        input_shape = img.shape
+        output_dict = {}
+        output_dict["homography"] = homography.tolist()
+        output_dict["input_shape"] = list(input_shape)
+        output_dict["output_shape"] = list(tuple(args.output_size))
+        yaml.dump(output_dict, f)
     warped = cv2.warpPerspective(
         cv2.imread(
             args.calib_image),
         homography,
-        args.output_size)
+        tuple(args.output_size))
     cv2.imshow(
         "warped",
         cv2.resize(
