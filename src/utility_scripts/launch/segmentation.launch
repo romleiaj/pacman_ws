@@ -1,0 +1,7 @@
+<launch>
+    <node pkg="utility_scripts" type="path_planning_node.py" name="path_planning" output="screen">
+        <param name="homography_yaml" value="$(find utility_scripts)/scripts/homography.yaml"/>
+        <param name="img_in" value="/image_publisher_1572977270947479070/image_raw"/>
+        <param name="path_out" value="/path_points"/>
+    </node>
+</launch>

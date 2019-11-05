@@ -93,7 +93,9 @@ else:
     source = img.shape[1] * 599 + 500
     sink   = img.shape[1] * 150 + 999
     kernel = np.ones((40, 40), np.uint) 
-    graph = imageToGraph(cv2.erode(flooded, kernel, iterations = 1), 255)
+    eroded = cv2.erode(flooded, kernel, iterations = 1)
+    ds_img = cv2.resize(eroded, (), 0.1, 0.1)
+    graph = imageToGraph(ds_image, 255)
     path = find_path(graph, source, sink, cost_func=cost_func)
     path_elems = path[0]
     np.save("path.npy", path_elems)
