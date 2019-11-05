@@ -5,7 +5,7 @@ from dijkstar import Graph, find_path
 import sklearn
 import yaml
 
-def imageToGraph(img, true_val = 255):
+def imageToGraph(img, true_val = 255, debug=False):
     """
     convert a binary representation to graphical representation
     """
@@ -17,25 +17,44 @@ def imageToGraph(img, true_val = 255):
         for j in range(num_cols):
             ind_current = i * num_cols + j
             ind_down    = (i + 1) * num_cols + j
-            ind_right   = i * num_rows + j + 1
+            ind_right   = (i * num_cols) + j + 1
+            ind_right_down = (i + 1) * num_cols + j + 1
             
-            current = img[i, j]
-            down    = img[i + 1, j]
-            right   = img[i, j + 1]
+            current    = img[i, j]
+            down       = img[i + 1, j]
+            right      = img[i, j + 1]
+            right_down = img[i + 1, j + 1]
 
             if current == true_val and down == true_val:
-                print("down: {} to {}".format(ind_current, ind_down))
+                if debug:
+                    print("down: {} to {}".format(ind_current, ind_down))
                 graph.add_edge(ind_current, ind_down, {'cost' : 1})
+                graph.add_edge(ind_down, ind_current, {'cost' : 1})
 
             if current == true_val and right == true_val:
-                print("right: {} to {}".format(ind_current, ind_right))
+                if debug:
+                    print("right: {} to {}".format(ind_current, ind_right))
                 graph.add_edge(ind_current, ind_right, {'cost' : 1})
+                graph.add_edge(ind_right, ind_current, {'cost' : 1}) # make it bidirectional
 
-            #print((current, down, right))
+            if current == true_val and right_down == true_val:
+                if debug:
+                    print("right down: {} to {}".format(ind_current, ind_right_down))
+                graph.add_edge(ind_current, ind_right_down, {'cost' : np.sqrt(2)})
+                graph.add_edge(ind_right_down, ind_current, {'cost' : np.sqrt(2)})
+
+            if right == true_val and down == true_val:
+                if debug:
+                    print("left up: {} to {}".format(ind_right, ind_down))
+                graph.add_edge(ind_right, ind_down, {'cost' : np.sqrt(2)})
+                graph.add_edge(ind_down, ind_right, {'cost' : np.sqrt(2)}) # make it bidirectional
+
+
     print(img.shape)
-    print(graph)
     return graph
 
+def indToIJ(ind, width):
+    return (int(np.floor(ind / width)), int(ind % width))
 
 img = cv2.imread("../../../data/path_prob.png")
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -50,7 +69,6 @@ mask = np.pad(mask, (1,1))
 flooded = cv2.floodFill(dilation, mask, seedPoint, 125)
 flooded = (flooded[1]  == 125).astype(np.uint8) * 255            
 
-
 with open("homography.yaml", 'r') as f:
     homography = np.asarray(yaml.load(f))
 
@@ -58,26 +76,38 @@ with open("homography.yaml", 'r') as f:
 #    flooded,
 #    homography,
 #    flooded.shape[:2])
-#img = np.asarray([[1, 1, 1], [1, 1, 1], [1, 1, 1]])
-graph = imageToGraph(flooded, 255)
-pdb.set_trace()
-print(graph)
-#
-cost_func = lambda u, v, e, prev_e: e['cost']
-path = find_path(graph, img.shape[1] * 600 + 500, img.shape[1] * 160 + 999, cost_func=cost_func)
-#path = find_path(graph, img.shape[1] * 0 + 0, img.shape[1] * 2 + 2, cost_func=cost_func)
-print(path)
-
-contours = cv2.findContours(flooded,cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)[-2]
 
 output = np.zeros((flooded.shape[0], flooded.shape[1], 3), dtype=np.uint8)
+contours = cv2.findContours(flooded,cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)[-2]
 
-cv2.imshow("", flooded)
-#cv2.waitKey(20)
-
-#sklearn.feature_extraction.image.img_to_graph(output)
 for contour in contours:
    cv2.drawContours(output, contour, -1, (0, 255, 0), 3)
+
+TEST = False
+cost_func = lambda u, v, e, prev_e: e['cost']
+if TEST:
+    img = np.asarray([[1, 1, 1], [1, 1, 1], [1, 1, 1]])
+    graph = imageToGraph(img, 1, True)
+    path = find_path(graph, 8, 0, cost_func=cost_func)
+else:
+    source = img.shape[1] * 599 + 500
+    sink   = img.shape[1] * 150 + 999
+    kernel = np.ones((40, 40), np.uint) 
+    graph = imageToGraph(cv2.erode(flooded, kernel, iterations = 1), 255)
+    path = find_path(graph, source, sink, cost_func=cost_func)
+    path_elems = path[0]
+    np.save("path.npy", path_elems)
+    path_elems = np.load("path.npy")
+    for path_elem in path_elems:
+        loc = indToIJ(path_elem, img.shape[1])
+        output[loc[0], loc[1], :] = (255, 0, 0)
+
+
+output[int(np.floor(source / img.shape[1])), int(source % img.shape[1]), :] = (255, 0, 0)
+output[int(np.floor(sink / img.shape[1])), int(sink % img.shape[1]), :] = (0, 0, 255)
+
+cv2.imwrite("planned_path.png", output)
+cv2.imshow("asdf", output)
 
 #for i in range(output.shape[0]):
 #    print(i)
