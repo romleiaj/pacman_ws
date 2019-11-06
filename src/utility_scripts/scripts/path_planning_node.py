@@ -28,6 +28,7 @@ class PathPlanning():
                 print(e)
         self.homography = np.asarray(H['homography'])
         self.output_size = tuple(H['output_shape'])
+        self.input_size = tuple(H['input_shape'][0:2])
 
     def process_image(self, data):
         # If still processing, wait till more recent image
@@ -40,7 +41,8 @@ class PathPlanning():
             rospy.logerr(e)
         # Pulling out green channel (path probabilities)
         green = raw_cv_img[:, :, 1]
-        warped = cv2.warpPerspective(green, self.homography, 
+        resized_green = cv2.resize(green, self.input_size) 
+        warped = cv2.warpPerspective(resized_green, self.homography, 
                 self.output_size) 
         cv2.imwrite("/home/adam/Pictures/warped.png", warped)
         # Thresholding path probability
@@ -52,7 +54,6 @@ class PathPlanning():
         # TODO figure out if necessary
         mask = np.pad(mask, (1,1), 'constant')
         seedPoint = (int(warped.shape[0] / 2), warped.shape[1] - 1)
-        #seedPoint = (30, 90)
         flooded = cv2.floodFill(dilation, mask, seedPoint, 125)
         flooded = (flooded[1] == 125).astype(np.uint8) * 255
         

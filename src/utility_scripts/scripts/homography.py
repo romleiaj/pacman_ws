@@ -51,8 +51,7 @@ def compute_homography(
 
     dest_pts[:, 0] += output_size[0] / 2.0
     # To account for the reversed convention in an image
-    dest_pts[:, 1] = output_size[1] - dest_pts[:, 1]
-    pdb.set_trace()
+    dest_pts[:, 1] = (output_size[1] - (dest_pts[:, 1])) 
     print("source points {}, dest points {} ".format(source_pts, dest_pts))
     homography, status = cv2.findHomography(source_pts, dest_pts)
     print("homography {} ".format(homography))
@@ -77,38 +76,81 @@ def parse_args():
         "--calib-image",
         default="../../../data/calibration_image_pacman.png",
         help="the file path")
+    parser.add_argument(
+        "--segmentation-image",
+        default="../../../data/path_prob.png",
+        help="An example segmentation mask to warp")
+    parser.add_argument(
+        "--just-warp",
+        action="store_true")
 
     return parser.parse_args()
 
+def warp(img, homography, output_size, input_size):
+    resized = cv2.resize(img, input_size)
+    warped = cv2.warpPerspective(
+        resized,
+        homography,
+        output_size)
+    return warped
 
 if __name__ == "__main__":
     args = parse_args()
-    homography = compute_homography(
-        args.calib_image,
-        args.num_points,
-        args.tile_size,
-        tuple(args.output_size))
-    with open(args.output_file, 'w') as f:
-        pdb.set_trace()
+    if args.just_warp:
+        with open(args.output_file, 'r') as f:
+            h = yaml.safe_load(f)
         img = cv2.imread(args.calib_image)
-        input_shape = img.shape
-        output_dict = {}
-        output_dict["homography"] = homography.tolist()
-        output_dict["input_shape"] = list(input_shape)
-        output_dict["output_shape"] = list(tuple(args.output_size))
-        yaml.dump(output_dict, f)
-    warped = cv2.warpPerspective(
-        cv2.imread(
-            args.calib_image),
-        homography,
-        tuple(args.output_size))
-    cv2.imshow(
-        "warped",
-        cv2.resize(
-            warped,
-            dsize=(
-                args.output_size[0] *
-                5,
-                args.output_size[1] *
-                5)))
-    cv2.waitKey(0)
+        seg = cv2.imread(args.segmentation_image)
+        homography = np.asarray(h['homography'])
+        warped = warp(seg, homography, tuple(h['output_shape']), (img.shape[1], img.shape[0]))
+
+        cv2.imwrite("warp_input.png", seg)
+        cv2.imwrite("warp_output.png", warped)
+    else:
+        homography = compute_homography(
+            args.calib_image,
+            args.num_points,
+            args.tile_size,
+            tuple(args.output_size))
+        with open(args.output_file, 'w') as f:
+            img = cv2.imread(args.calib_image)
+            input_shape = img.shape
+            output_dict = {}
+            output_dict["homography"] = homography.tolist()
+            output_dict["input_shape"] = list(input_shape)
+            output_dict["output_shape"] = list(tuple(args.output_size))
+            yaml.dump(output_dict, f)
+
+        input_img = cv2.imread(args.calib_image)
+        warped = cv2.warpPerspective(
+            input_img,
+            homography,
+            tuple(args.output_size))
+        resized_warped = cv2.resize(
+                warped,
+                dsize=(
+                    args.output_size[0] *
+                    5,
+                    args.output_size[1] *
+                    5))
+        cv2.imshow("warped", resized_warped)
+        cv2.imwrite("warped_calibration.png", resized_warped)
+        
+        segmentation_image = cv2.imread(args.segmentation_image)
+        segmentation_image = cv2.resize(segmentation_image, (input_img.shape[0], input_img.shape[1]))
+
+        warped_mask = cv2.warpPerspective(
+            segmentation_image,
+            homography,
+            tuple(args.output_size))
+        resized_warped_mask = cv2.resize(
+                warped_mask,
+                dsize=(
+                    args.output_size[0] *
+                    5,
+                    args.output_size[1] *
+                    5))
+        cv2.imshow("mask", resized_warped_mask)
+        cv2.imwrite("warped_mask.png", resized_warped_mask)
+
+        cv2.waitKey(0)
