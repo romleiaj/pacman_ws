@@ -2,13 +2,8 @@
 import rospy
 from geometry_msgs.msg  import Twist, Vector3
 from nav_msgs.msg import Odometry
-<<<<<<< Updated upstream
 from math import atan2, sqrt, pi
 from pacman_msgs.msg import PointArray
-=======
-from math import pow,atan2,sqrt,pi
-from turtlesim.msg import Pose
->>>>>>> Stashed changes
 from PID import PID
 
 import numpy as np
@@ -31,9 +26,9 @@ class PathNavigation():
         #self.ang_vel = PID()
         
         # User specified tolerance and gains
-        self.distance_tolerance = 0.6
-        self.lin_vel = .4 #.2 worked
-        self.Kp_w = 6 # 6 default
+        self.distance_tolerance = 0.1
+        self.lin_vel = .1 #.2 worked
+        self.Kp_w = .1
 
     #Callback function implementing the odom value received
     def odom_callback(self, data):
@@ -41,33 +36,35 @@ class PathNavigation():
         
     def point_queue_callback(self, msg): #FIFO Queue
         array = msg.points
-        #dimension = np.asarray(array).shape
+        dimension = np.asarray(array).shape
         i = 0
         distance_to = 0
         distnace_to_prev = 0
         i_valid = False
-        for point in array:
-            #self.queue.insert(0, point)
-            distance_to_prev = distance_to
-            distance_to = self.get_distance(point[0], point[1])
-            if i >= 2: # valid checking
-                if (distance_to - distance_to_prev < 0) and (distnace_to <= self.distance_tolerance):
-                    # closest to robot position
-                    i_valid = True
-                    break
-                if i > floor(len(array)/2):
-                    rospy.logerr("there's a problem in point_queue_callback: line.56")
-                    break # # If i is larger than half of the array segmentation can't keep up with speed
-            i += 1
-        
-        index_offset = 1 # Added to account for latency (will be affected by point density in line)
-        filtered_points = array[i+index_offset:]
-        print("Split at: " + str(i) + "/" + str(len(array)))
-        
+
+        if dimension[0] > 1: # Point Filtering
+            for point in array:
+                #self.queue.insert(0, point)
+                distance_to_prev = distance_to
+                distance_to = self.get_distance(point[0], point[1])
+                if i >= 2: # valid checking
+                    if (distance_to - distance_to_prev < 0) and (distnace_to <= self.distance_tolerance):
+                        # closest to robot position
+                        i_valid = True
+                        break
+                    if i > floor(len(array)/2):
+                        rospy.logerr("there's a problem in point_queue_callback: line.56")
+                        break # # If i is larger than half of the array segmentation can't keep up with speed
+                i += 1
+            index_offset = 0 # Added to account for latency (will be affected by point density in line)
+            filtered_points = array[i+index_offset:]
+            print("Split at: " + str(i) + "/" + str(len(array)))
+        else:
+            filtered_points = array            
         for point in filtered_points:
             self.queue.insert(0, point)
             self.in_op = True
-        print("Q: " + str(len(self.queue)))
+        print("Insert Q Now: " + str(len(self.queue)))
         
     def get_next_point(self):
         if len(self.queue) < 1: # No points in queue
@@ -75,8 +72,8 @@ class PathNavigation():
             self.in_op = False
             raise Queue.Empty
         else:
+            print("Popped Q Now: " + str(len(self.queue)))
             return self.queue.pop()
-        print("Q: " + str(len(self.queue)))
         
     def get_distance(self, goal_x, goal_y):
         pose = self.odom.pose.pose.position
@@ -103,20 +100,19 @@ class PathNavigation():
             
             #Porportional Controller
             
-            if self.in_op:
-                #linear velocity in the x-axis:
-                turn_angle = pi/2
-                turn_factor = (turn_angle - abs(theta - yaw)) / turn_angle
-                if turn_factor < 0:
-                    turn_factor = 0
-                vel_msg.linear.x = self.lin_vel * turn_factor
+            #if self.in_op:
+            #linear velocity in the x-axis:
+            turn_angle = pi/2
+            turn_factor = (turn_angle - abs(theta - yaw)) / turn_angle
+            if turn_factor < 0:
+                turn_factor = 0
+            vel_msg.linear.x = self.lin_vel * turn_factor
                 #print(vel_msg.linear.x)
-                #angular velocity in the z-axis: Add Differential
-                vel_msg.angular.z = self.Kp_w * (theta - yaw)
-                
-            else: # Last element of queue
-                vel_msg.linear.x = 0
-                vel_msg.angular.z =0
+            #angular velocity in the z-axis: Add Differential
+            vel_msg.angular.z = self.Kp_w * (theta - yaw)
+            #else: # Last element of queue
+                #vel_msg.linear.x = 0
+                #vel_msg.angular.z =0
                 #vel_msg.linear.x = lin_vel * sqrt(pow((goal_pose_x - pose.x), 2) + pow((goal_pose_y - pose.y), 2))
                 
             #Publishing our vel_msg
@@ -124,7 +120,7 @@ class PathNavigation():
             self.rate.sleep()
         
         if len(self.queue) == 0:
-            self.in_op = False
+            #self.in_op = False
             vel_msg.linear.x = 0
             vel_msg.angular.z = 0
             self.velocity_publisher.publish(vel_msg)
@@ -137,6 +133,12 @@ if __name__ == '__main__':
         odom_topic = rospy.get_param('~odom_topic', 'pacman_simplified/odom')
         robot = PathNavigation()
         print(cmd_vel_topic)
+        
+        while not rospy.is_shutdown(): #len(robot.queue) > 0:
+            if len(robot.queue) > 0:
+                robot.move2point()
+        
+        rospy.spin()
                 
         #raise SystemExit
 
@@ -204,11 +206,6 @@ if __name__ == '__main__':
         robot.point_queue_callback([(0.012957, -0.012112)])
 
         
-        while not rospy.is_shutdown(): #len(robot.queue) > 0:
-            if len(robot.queue) > 0:
-                robot.move2point()
-        
-        rospy.spin()
 
     except rospy.ROSInterruptException:
         pass

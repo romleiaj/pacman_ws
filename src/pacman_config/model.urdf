@@ -227,12 +227,12 @@
 	</joint>
 
 	<joint  name="GPS_Receiver_joint" type="fixed">
-    	  <origin xyz="0.0025924256a -0.170120818 0.759278136" rpy="0 0 0" />
+    	  <origin xyz="0.0025924256 -0.170120818 0.759278136" rpy="0 0 0" />
     	  <parent link="base_link"/>
           <child link="GPS_Receiver"/>
 	</joint>
 	<joint  name="piksi_imu" type="fixed">
-    	  <origin xyz="0.0025924256a 0.170120818 0.759278136" rpy="0 0 0" />
+    	  <origin xyz="-.0028890976 .1192403 .7526036923" rpy="0 0 0" />
     	  <parent link="base_link"/>
           <child link="piksi_imu"/>
 	</joint>
