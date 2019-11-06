@@ -15,4 +15,7 @@
 	url = https://github.com/romleiaj/semantic-segmentation-pytorch
 [submodule "src/differential-drive"]
 	path = src/differential-drive
-	url = https://github.com/romleiaj/differential-drive
+	url = https://github.com/romleiaj/differential-drive.git
+[submodule "src/imu_tools"]
+	path = src/imu_tools
+	url = https://github.com/ccny-ros-pkg/imu_tools

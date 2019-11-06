@@ -1,6 +1,6 @@
 <launch>
 
-  <arg name="model" default="$(find pacman_simulation)/models/pacman/model.urdf modelDirectory:=$(find pacman_simulation)/models/pacman"/>
+  <arg name="model" default="$(find pacman_config)/model.urdf modelDirectory:=/home/adam/pacman_ws/src/pacman_simulation/models/pacman"/>
   <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />
 
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
