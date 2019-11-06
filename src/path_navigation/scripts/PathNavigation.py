@@ -142,7 +142,6 @@ class PathNavigation():
         #print("in move the initial location is {}".format(initial_loc))
         new_loc = self.get_location()
 
-
         while(np.linalg.norm(initial_loc - new_loc) < distance):  # check if it's moved enough
             rospy.sleep(self.SMALL_WAIT)  # Maybe not needed
             new_loc = self.get_location()  # get the new rotation
@@ -256,8 +255,9 @@ class PathNavigation():
 if __name__ == "__main__":
     
     rospy.init_node("PathNavigation")  # this is required for any ros thing to work
-    cmd_vel_topic = rospy.get_param('~cmd_vel_topic', 'pacman_equiv/cmd_vel')
-    odom_topic = rospy.get_param('~odom_topic', 'pacman_equiv/odom')
+    cmd_vel_topic = rospy.get_param('~cmd_vel_topic', 'pacman_simplified/cmd_vel')
+    odom_topic = rospy.get_param('~odom_topic', 'pacman_simplified/odom')
+
     print(cmd_vel_topic)
 
     mover = PathNavigation(cmd_vel_topic, odom_topic)

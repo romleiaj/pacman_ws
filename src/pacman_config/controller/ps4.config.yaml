@@ -6,5 +6,6 @@ scale_angular_turbo: 1 # 14.389 MAX - 1 recommended
 axis_angular: 0
 scale_angular: 1 #7.19 MAX
 
+
 enable_button: 6  # L2 shoulder button
 enable_turbo_button: 4  # L1 shoulder button

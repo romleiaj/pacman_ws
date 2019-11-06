@@ -1,8 +1,8 @@
 <launch>
 
   <node pkg="path_navigation" output="screen" name="PathNav_node" type="PathNav.py">
-  	<param name="cmd_vel_topic" type="string" value="pacman_equiv/cmd_vel"/>
-  	<param name="odom_topic" type="string" value="pacman_equiv/odom"/>
+  	<param name="cmd_vel_topic" type="string" value="pacman_simplified/cmd_vel"/>
+  	<param name="odom_topic" type="string" value="pacman_simplified/odom"/>
   </node>
 
 </launch>

@@ -106,6 +106,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #    INCLUDE_DIRS include
     CATKIN_DEPENDS std_msgs geometry_msgs nav_msgs message_runtime
+
 #  INCLUDE_DIRS include
 #  LIBRARIES pacman_launch
 #  CATKIN_DEPENDS other_catkin_pkg

@@ -2,8 +2,13 @@
 import rospy
 from geometry_msgs.msg  import Twist, Vector3
 from nav_msgs.msg import Odometry
+<<<<<<< Updated upstream
 from math import atan2, sqrt, pi
 from pacman_msgs.msg import PointArray
+=======
+from math import pow,atan2,sqrt,pi
+from turtlesim.msg import Pose
+>>>>>>> Stashed changes
 from PID import PID
 
 import numpy as np
@@ -11,12 +16,6 @@ import tf
 import pdb
 import Queue
 import matplotlib.pyplot as plt
-
-
-class Point():
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
 
 class PathNavigation():
 
@@ -41,12 +40,7 @@ class PathNavigation():
         self.odom = data
         
     def point_queue_callback(self, msg): #FIFO Queue
-        first = msg[0]
-        point = Point(first[0], first[1])
-        self.queue.insert(0, point)
-        
-    def do_nothing(self, msg):
-        array = msg
+        array = msg.points
         #dimension = np.asarray(array).shape
         i = 0
         distance_to = 0
@@ -139,8 +133,8 @@ if __name__ == '__main__':
     try:
         #Testing our function
         rospy.init_node('PathNav', anonymous=True)
-        cmd_vel_topic = rospy.get_param('~cmd_vel_topic', 'pacman_equiv/cmd_vel')
-        odom_topic = rospy.get_param('~odom_topic', 'pacman_equiv/odom')
+        cmd_vel_topic = rospy.get_param('~cmd_vel_topic', 'pacman_simplified/cmd_vel')
+        odom_topic = rospy.get_param('~odom_topic', 'pacman_simplified/odom')
         robot = PathNavigation()
         print(cmd_vel_topic)
                 

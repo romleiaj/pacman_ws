@@ -4,7 +4,7 @@
 	<arg name="debug" default="false" />
 	<arg name="gui" default="true" />
 	<arg name="pause" default="true" />
-	<arg name="world" default="$(find pacman_simulation)/worlds/empty_world.world" />
+	<arg name="world" default="$(find pacman_simulation)/worlds/sim_path1.world" />
 
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">
 		 <arg name="world_name" default="$(arg world)" />

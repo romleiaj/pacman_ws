@@ -1,0 +1,330 @@
+<?xml version="1.0"?>
+<robot name="pacman">
+	<link name="base_footprint"/>
+	<link name="GPS_Receiver"/>
+	<link name="LIDAR_Sensor"/>
+	<link name="Front_Camera"/>
+
+
+	<link name="base_link">
+		<inertial>
+			<origin xyz="0 0 0.157701488" rpy="0 0 0" />
+		  	<mass value="62"/>
+		  	<inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+		</inertial>
+		<visual>
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/base.dae"/>
+			</geometry>
+		</visual>
+		<collision>
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/base.dae"/>
+			</geometry>
+		</collision>
+	</link>
+
+	<link name="left_big_wheel">
+		<inertial>
+    		<origin xyz="0 0 0" rpy="0 0 0" />
+			<mass value="0"/>
+			<inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+		</inertial>
+		<visual>
+			<origin xyz="0 -0.2646172 -0.123838716" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/left_wheel.dae"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0 -0.2646172 -0.123838716" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/left_wheel.dae"/>
+			</geometry>
+		</collision>
+	</link>
+
+	<link name="right_big_wheel">
+		<inertial>
+    		<origin xyz="0 0 0" rpy="0 0 0" />
+			<mass value="0"/>
+			<inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+		</inertial>
+		<visual>
+			<origin xyz="0 -0.2646172A -0.123838716" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/left_wheel.dae"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0 -0.2646172 -0.123838716" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/left_wheel.dae"/>
+			</geometry>
+		</collision>
+	</link>
+
+	<link name="front_right_caster">
+		<inertial>
+    		<origin xyz="0 0 0" rpy="0 0 0" />
+			<mass value="0"/>
+			<inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+		</inertial>
+		<visual>
+			<origin xyz="-0.39505128 -0.199152764 -0.150970234" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/top_left_wheel_caster.dae"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="-0.39505128 -0.199152764 -0.150970234" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/top_left_wheel_caster.dae"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="front_left_caster">
+		<inertial>
+    		<origin xyz="0 0 0" rpy="0 0 0" />
+			<mass value="0"/>
+			<inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+		</inertial>
+		<visual>
+			<origin xyz="-0.39505128 -0.199152764 -0.150970234" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/top_left_wheel_caster.dae"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="-0.39505128 -0.199152764 -0.150970234" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/top_left_wheel_caster.dae"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="back_right_caster">
+		<inertial>
+    		<origin xyz="0 0 0" rpy="0 0 0" />
+			<mass value="0"/>
+			<inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+		</inertial>
+		<visual>
+			<origin xyz="-0.39505128 -0.199152764 -0.150970234" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/top_left_wheel_caster.dae"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="-0.39505128 -0.199152764 -0.150970234" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/top_left_wheel_caster.dae"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="back_left_caster">
+		<inertial>
+    		<origin xyz="0 0 0" rpy="0 0 0" />
+			<mass value="0"/>
+			<inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+		</inertial>
+		<visual>
+			<origin xyz="-0.39505128 -0.199152764 -0.150970234" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/top_left_wheel_caster.dae"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="-0.39505128 -0.199152764 -0.150970234" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/top_left_wheel_caster.dae"/>
+			</geometry>
+		</collision>
+	</link>
+
+
+	<link name="front_left_wheel">
+		<inertial>
+    		<origin xyz="0 0 0" rpy="0 0 0" />
+			<mass value="0"/>
+			<inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+		</inertial>
+		<visual>
+			<origin xyz="-0.363080808 -0.199659494 -0.073500742" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/top_left_wheel.dae"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="-0.363080808 -0.199659494 -0.073500742" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/top_left_wheel.dae"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="front_right_wheel">
+		<inertial>
+    		<origin xyz="0 0 0" rpy="0 0 0" />
+			<mass value="0"/>
+			<inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+		</inertial>
+		<visual>
+			<origin xyz="-0.363080808 -0.199659494 -0.073500742" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/top_left_wheel.dae"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="-0.363080808 -0.199659494 -0.073500742" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/top_left_wheel.dae"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="back_left_wheel">
+		<inertial>
+    		<origin xyz="0 0 0" rpy="0 0 0" />
+			<mass value="0"/>
+			<inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+		</inertial>
+		<visual>
+			<origin xyz="-0.363080808 -0.199659494 -0.073500742" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/top_left_wheel.dae"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="-0.363080808 -0.199659494 -0.073500742" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/top_left_wheel.dae"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="back_right_wheel">
+		<inertial>
+    		<origin xyz="0 0 0" rpy="0 0 0" />
+			<mass value="0"/>
+			<inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+		</inertial>
+		<visual>
+			<origin xyz="-0.363080808 -0.199659494 -0.073500742" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/top_left_wheel.dae"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="-0.363080808 -0.199659494 -0.073500742" rpy="0 0 0" />
+			<geometry>
+				<mesh filename="file://$(arg modelDirectory)/materials/textures/top_left_wheel.dae"/>
+			</geometry>
+		</collision>
+	</link>
+
+	<joint  name="base_to_footprint_joint" type="fixed">
+    	  <origin xyz="0 0 0" rpy="0 0 0" />
+    	  <parent link="base_footprint"/>
+          <child link="base_link"/>
+	</joint>
+
+	<joint  name="GPS_Receiver_joint" type="fixed">
+    	  <origin xyz="0.0025924256a -0.170120818 0.759278136" rpy="0 0 0" />
+    	  <parent link="base_link"/>
+          <child link="GPS_Receiver"/>
+	</joint>
+	<joint  name="LIDAR_Sensor_joint" type="fixed">
+    	  <origin xyz="0 0 0.905932656" rpy="0 0 0" />
+    	  <parent link="base_link"/>
+          <child link="LIDAR_Sensor"/>
+	</joint>
+	<joint  name="Front_Camera_joint" type="fixed">
+    	  <origin xyz="0.152597358 0 0.77890116" rpy="0 0 0" />
+    	  <parent link="base_link"/>
+          <child link="Front_Camera"/>
+	</joint>
+
+
+	<joint  name="left_big_wheel_joint" type="continuous">
+    	<origin xyz="0 0.2646172 0.123838716" rpy="0 0 0" />
+		<axis xyz="0 1 0"/>
+    	<parent link="base_link"/>
+        <child link="left_big_wheel"/>
+        <limit effort="40" velocity="6.7056"/>
+	</joint>
+
+	<joint  name="right_big_wheel_joint" type="continuous">
+		<origin xyz="0 -0.2645537 0.123838716" rpy="0 0 0" />
+	  	<axis xyz="0 1 0"/>
+    	<parent link="base_link"/>
+        <child link="right_big_wheel"/>
+        <limit effort="40" velocity="6.7056" />
+	</joint>
+
+
+
+	<joint  name="front_left_caster_joint" type="continuous">
+		<origin xyz="0.39505128 0.199152764 0.150970234" rpy="0 0 0" />
+		<axis xyz="0 0 1"/>
+    	<parent link="base_link"/>
+        <child link="front_left_caster"/>
+        <limit effort="40" velocity="6.7056"/>
+	</joint>
+
+	<joint  name="front_right_caster_joint" type="continuous">
+		<origin xyz="0.39505128 -0.199241156 0.150970234" rpy="0 0 0" />
+		<axis xyz="0 0 1"/>
+    	<parent link="base_link"/>
+        <child link="front_right_caster"/>
+        <limit effort="40" velocity="6.7056"/>
+	</joint>
+
+
+	<joint  name="back_left_caster_joint" type="continuous">
+		<origin xyz="-0.346898976 0.26420826 0.150970234" rpy="0 0 0" />
+		<axis xyz="0 0 1"/>
+    	<parent link="base_link"/>
+        <child link="back_left_caster"/>
+        <limit effort="40" velocity="6.7056"/>
+	</joint>
+
+	<joint  name="back_right_caster_joint" type="continuous">
+		<origin xyz="-0.346898976 -0.26429716 0.150970234" rpy="0 0 0" />
+		<axis xyz="0 0 1"/>
+    	<parent link="base_link"/>
+        <child link="back_right_caster"/>
+        <limit effort="40" velocity="6.7056"/>
+	</joint>
+
+
+	<joint  name="front_left_wheel_joint" type="continuous">
+		<origin xyz="-0.031970472 0 -0.077469492" rpy="0 0 0" />
+		<axis xyz="0 1 0"/>
+    	<parent link="front_left_caster"/>
+        <child link="front_left_wheel"/>
+        <limit effort="40" velocity="6.7056"/>
+	</joint>
+	<joint  name="front_right_wheel_joint" type="continuous">
+		<origin xyz="-0.031970472 0 -0.077469492" rpy="0 0 0" />
+		<axis xyz="0 1 0"/>
+    	<parent link="front_right_caster"/>
+        <child link="front_right_wheel"/>
+        <limit effort="40" velocity="6.7056"/>
+	</joint>
+	<joint  name="back_left_wheel_joint" type="continuous">
+		<origin xyz="-0.031970472 0 -0.077469492" rpy="0 0 0" />
+		<axis xyz="0 1 0"/>
+    	<parent link="back_left_caster"/>
+        <child link="back_left_wheel"/>
+        <limit effort="40" velocity="6.7056"/>
+	</joint>
+	<joint  name="back_right_wheel_joint" type="continuous">
+		<origin xyz="-0.031970472 0 -0.077469492" rpy="0 0 0" />
+		<axis xyz="0 1 0"/>
+    	<parent link="back_right_caster"/>
+        <child link="back_right_wheel"/>
+        <limit effort="40" velocity="6.7056"/>
+	</joint>
+
+	<!-- <gazebo reference="base_link">
+    	
+	</gazebo> -->
+
+</robot>

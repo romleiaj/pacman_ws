@@ -1,0 +1,977 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.79.0 commit date:2018-03-22, commit time:14:10, hash:f4dc9f9d68b</authoring_tool>
+    </contributor>
+    <created>2019-11-06T09:25:38</created>
+    <modified>2019-11-06T09:25:38</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_images>
+    <image id="small_wheel_png" name="small_wheel_png">
+      <init_from>small_wheel.png</init_from>
+    </image>
+  </library_images>
+  <library_effects>
+    <effect id="antenna_rack_jpg-effect">
+      <profile_COMMON>
+        <newparam sid="antenna_rack_jpg-surface">
+          <surface type="2D">
+            <init_from>antenna_rack_jpg</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="antenna_rack_jpg-sampler">
+          <sampler2D>
+            <source>antenna_rack_jpg-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="antenna_rack_jpg-sampler" texcoord="antenna_rack_jpg"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="battery_png-effect">
+      <profile_COMMON>
+        <newparam sid="battery_png-surface">
+          <surface type="2D">
+            <init_from>battery_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="battery_png-sampler">
+          <sampler2D>
+            <source>battery_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="battery_png-sampler" texcoord="battery_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="breaker_png-effect">
+      <profile_COMMON>
+        <newparam sid="breaker_png-surface">
+          <surface type="2D">
+            <init_from>breaker_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="breaker_png-sampler">
+          <sampler2D>
+            <source>breaker_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="breaker_png-sampler" texcoord="breaker_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="camera_png-effect">
+      <profile_COMMON>
+        <newparam sid="camera_png-surface">
+          <surface type="2D">
+            <init_from>camera_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="camera_png-sampler">
+          <sampler2D>
+            <source>camera_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="camera_png-sampler" texcoord="camera_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="connector_strip_png-effect">
+      <profile_COMMON>
+        <newparam sid="connector_strip_png-surface">
+          <surface type="2D">
+            <init_from>connector_strip_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="connector_strip_png-sampler">
+          <sampler2D>
+            <source>connector_strip_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="connector_strip_png-sampler" texcoord="connector_strip_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="connectorStrip2_png-effect">
+      <profile_COMMON>
+        <newparam sid="connectorStrip2_png-surface">
+          <surface type="2D">
+            <init_from>connectorStrip2_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="connectorStrip2_png-sampler">
+          <sampler2D>
+            <source>connectorStrip2_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="connectorStrip2_png-sampler" texcoord="connectorStrip2_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="e_stop2_png-effect">
+      <profile_COMMON>
+        <newparam sid="e_stop2_png-surface">
+          <surface type="2D">
+            <init_from>e_stop2_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="e_stop2_png-sampler">
+          <sampler2D>
+            <source>e_stop2_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="e_stop2_png-sampler" texcoord="e_stop2_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="encoder_png-effect">
+      <profile_COMMON>
+        <newparam sid="encoder_png-surface">
+          <surface type="2D">
+            <init_from>encoder_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="encoder_png-sampler">
+          <sampler2D>
+            <source>encoder_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="encoder_png-sampler" texcoord="encoder_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="EStop_button_png-effect">
+      <profile_COMMON>
+        <newparam sid="EStop_button_png-surface">
+          <surface type="2D">
+            <init_from>EStop_button_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="EStop_button_png-sampler">
+          <sampler2D>
+            <source>EStop_button_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="EStop_button_png-sampler" texcoord="EStop_button_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="footStand_png-effect">
+      <profile_COMMON>
+        <newparam sid="footStand_png-surface">
+          <surface type="2D">
+            <init_from>footStand_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="footStand_png-sampler">
+          <sampler2D>
+            <source>footStand_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="footStand_png-sampler" texcoord="footStand_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="GPS_receiver_png-effect">
+      <profile_COMMON>
+        <newparam sid="GPS_receiver_png-surface">
+          <surface type="2D">
+            <init_from>GPS_receiver_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="GPS_receiver_png-sampler">
+          <sampler2D>
+            <source>GPS_receiver_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="GPS_receiver_png-sampler" texcoord="GPS_receiver_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="GPS_receiver_png_001-effect">
+      <profile_COMMON>
+        <newparam sid="GPS_receiver_png_001-surface">
+          <surface type="2D">
+            <init_from>GPS_receiver_png_001</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="GPS_receiver_png_001-sampler">
+          <sampler2D>
+            <source>GPS_receiver_png_001-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="GPS_receiver_png_001-sampler" texcoord="GPS_receiver_png_001"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="gpsAntenna_jpg-effect">
+      <profile_COMMON>
+        <newparam sid="gpsAntenna_jpg-surface">
+          <surface type="2D">
+            <init_from>gpsAntenna_jpg</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="gpsAntenna_jpg-sampler">
+          <sampler2D>
+            <source>gpsAntenna_jpg-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="gpsAntenna_jpg-sampler" texcoord="gpsAntenna_jpg"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="Jetson_TX2_png-effect">
+      <profile_COMMON>
+        <newparam sid="Jetson_TX2_png-surface">
+          <surface type="2D">
+            <init_from>Jetson_TX2_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="Jetson_TX2_png-sampler">
+          <sampler2D>
+            <source>Jetson_TX2_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="Jetson_TX2_png-sampler" texcoord="Jetson_TX2_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="LiDAR_png-effect">
+      <profile_COMMON>
+        <newparam sid="LiDAR_png-surface">
+          <surface type="2D">
+            <init_from>LiDAR_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="LiDAR_png-sampler">
+          <sampler2D>
+            <source>LiDAR_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="LiDAR_png-sampler" texcoord="LiDAR_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="LiDAR_Controller_png-effect">
+      <profile_COMMON>
+        <newparam sid="LiDAR_Controller_png-surface">
+          <surface type="2D">
+            <init_from>LiDAR_Controller_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="LiDAR_Controller_png-sampler">
+          <sampler2D>
+            <source>LiDAR_Controller_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="LiDAR_Controller_png-sampler" texcoord="LiDAR_Controller_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="metal_finish_jpg-effect">
+      <profile_COMMON>
+        <newparam sid="metal_finish_jpg-surface">
+          <surface type="2D">
+            <init_from>metal_finish_jpg</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="metal_finish_jpg-sampler">
+          <sampler2D>
+            <source>metal_finish_jpg-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="metal_finish_jpg-sampler" texcoord="metal_finish_jpg"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="motor_control_png-effect">
+      <profile_COMMON>
+        <newparam sid="motor_control_png-surface">
+          <surface type="2D">
+            <init_from>motor_control_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="motor_control_png-sampler">
+          <sampler2D>
+            <source>motor_control_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="motor_control_png-sampler" texcoord="motor_control_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="Plywood_jpg-effect">
+      <profile_COMMON>
+        <newparam sid="Plywood_jpg-surface">
+          <surface type="2D">
+            <init_from>Plywood_jpg</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="Plywood_jpg-sampler">
+          <sampler2D>
+            <source>Plywood_jpg-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="Plywood_jpg-sampler" texcoord="Plywood_jpg"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="regulator_png-effect">
+      <profile_COMMON>
+        <newparam sid="regulator_png-surface">
+          <surface type="2D">
+            <init_from>regulator_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="regulator_png-sampler">
+          <sampler2D>
+            <source>regulator_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="regulator_png-sampler" texcoord="regulator_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="relay_png-effect">
+      <profile_COMMON>
+        <newparam sid="relay_png-surface">
+          <surface type="2D">
+            <init_from>relay_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="relay_png-sampler">
+          <sampler2D>
+            <source>relay_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="relay_png-sampler" texcoord="relay_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="relay2_png-effect">
+      <profile_COMMON>
+        <newparam sid="relay2_png-surface">
+          <surface type="2D">
+            <init_from>relay2_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="relay2_png-sampler">
+          <sampler2D>
+            <source>relay2_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="relay2_png-sampler" texcoord="relay2_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="router_png-effect">
+      <profile_COMMON>
+        <newparam sid="router_png-surface">
+          <surface type="2D">
+            <init_from>router_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="router_png-sampler">
+          <sampler2D>
+            <source>router_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="router_png-sampler" texcoord="router_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="router2_png-effect">
+      <profile_COMMON>
+        <newparam sid="router2_png-surface">
+          <surface type="2D">
+            <init_from>router2_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="router2_png-sampler">
+          <sampler2D>
+            <source>router2_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="router2_png-sampler" texcoord="router2_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="small_wheel_png-effect">
+      <profile_COMMON>
+        <newparam sid="small_wheel_png-surface">
+          <surface type="2D">
+            <init_from>small_wheel_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="small_wheel_png-sampler">
+          <sampler2D>
+            <source>small_wheel_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="small_wheel_png-sampler" texcoord="small_wheel_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="start_switch_png-effect">
+      <profile_COMMON>
+        <newparam sid="start_switch_png-surface">
+          <surface type="2D">
+            <init_from>start_switch_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="start_switch_png-sampler">
+          <sampler2D>
+            <source>start_switch_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="start_switch_png-sampler" texcoord="start_switch_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="trainMotor_png-effect">
+      <profile_COMMON>
+        <newparam sid="trainMotor_png-surface">
+          <surface type="2D">
+            <init_from>trainMotor_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="trainMotor_png-sampler">
+          <sampler2D>
+            <source>trainMotor_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="trainMotor_png-sampler" texcoord="trainMotor_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="usb_ports_png_001-effect">
+      <profile_COMMON>
+        <newparam sid="usb_ports_png_001-surface">
+          <surface type="2D">
+            <init_from>usb_ports_png_001</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="usb_ports_png_001-sampler">
+          <sampler2D>
+            <source>usb_ports_png_001-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="usb_ports_png_001-sampler" texcoord="usb_ports_png_001"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="vehicle_base_png-effect">
+      <profile_COMMON>
+        <newparam sid="vehicle_base_png-surface">
+          <surface type="2D">
+            <init_from>vehicle_base_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="vehicle_base_png-sampler">
+          <sampler2D>
+            <source>vehicle_base_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="vehicle_base_png-sampler" texcoord="vehicle_base_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="wheel_png-effect">
+      <profile_COMMON>
+        <newparam sid="wheel_png-surface">
+          <surface type="2D">
+            <init_from>wheel_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="wheel_png-sampler">
+          <sampler2D>
+            <source>wheel_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="wheel_png-sampler" texcoord="wheel_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="wheel_protector_png-effect">
+      <profile_COMMON>
+        <newparam sid="wheel_protector_png-surface">
+          <surface type="2D">
+            <init_from>wheel_protector_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="wheel_protector_png-sampler">
+          <sampler2D>
+            <source>wheel_protector_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="wheel_protector_png-sampler" texcoord="wheel_protector_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="wifi_router_3_png-effect">
+      <profile_COMMON>
+        <newparam sid="wifi_router_3_png-surface">
+          <surface type="2D">
+            <init_from>wifi_router_3_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="wifi_router_3_png-sampler">
+          <sampler2D>
+            <source>wifi_router_3_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="wifi_router_3_png-sampler" texcoord="wifi_router_3_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="xavier_png-effect">
+      <profile_COMMON>
+        <newparam sid="xavier_png-surface">
+          <surface type="2D">
+            <init_from>xavier_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="xavier_png-sampler">
+          <sampler2D>
+            <source>xavier_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <diffuse>
+              <texture texture="xavier_png-sampler" texcoord="xavier_png"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_materials>
+    <material id="antenna_rack_jpg-material" name="antenna_rack_jpg">
+      <instance_effect url="#antenna_rack_jpg-effect"/>
+    </material>
+    <material id="battery_png-material" name="battery_png">
+      <instance_effect url="#battery_png-effect"/>
+    </material>
+    <material id="breaker_png-material" name="breaker_png">
+      <instance_effect url="#breaker_png-effect"/>
+    </material>
+    <material id="camera_png-material" name="camera_png">
+      <instance_effect url="#camera_png-effect"/>
+    </material>
+    <material id="connector_strip_png-material" name="connector_strip_png">
+      <instance_effect url="#connector_strip_png-effect"/>
+    </material>
+    <material id="connectorStrip2_png-material" name="connectorStrip2_png">
+      <instance_effect url="#connectorStrip2_png-effect"/>
+    </material>
+    <material id="e_stop2_png-material" name="e_stop2_png">
+      <instance_effect url="#e_stop2_png-effect"/>
+    </material>
+    <material id="encoder_png-material" name="encoder_png">
+      <instance_effect url="#encoder_png-effect"/>
+    </material>
+    <material id="EStop_button_png-material" name="EStop_button_png">
+      <instance_effect url="#EStop_button_png-effect"/>
+    </material>
+    <material id="footStand_png-material" name="footStand_png">
+      <instance_effect url="#footStand_png-effect"/>
+    </material>
+    <material id="GPS_receiver_png-material" name="GPS_receiver_png">
+      <instance_effect url="#GPS_receiver_png-effect"/>
+    </material>
+    <material id="GPS_receiver_png_001-material" name="GPS_receiver_png_001">
+      <instance_effect url="#GPS_receiver_png_001-effect"/>
+    </material>
+    <material id="gpsAntenna_jpg-material" name="gpsAntenna_jpg">
+      <instance_effect url="#gpsAntenna_jpg-effect"/>
+    </material>
+    <material id="Jetson_TX2_png-material" name="Jetson_TX2_png">
+      <instance_effect url="#Jetson_TX2_png-effect"/>
+    </material>
+    <material id="LiDAR_png-material" name="LiDAR_png">
+      <instance_effect url="#LiDAR_png-effect"/>
+    </material>
+    <material id="LiDAR_Controller_png-material" name="LiDAR_Controller_png">
+      <instance_effect url="#LiDAR_Controller_png-effect"/>
+    </material>
+    <material id="metal_finish_jpg-material" name="metal_finish_jpg">
+      <instance_effect url="#metal_finish_jpg-effect"/>
+    </material>
+    <material id="motor_control_png-material" name="motor_control_png">
+      <instance_effect url="#motor_control_png-effect"/>
+    </material>
+    <material id="Plywood_jpg-material" name="Plywood_jpg">
+      <instance_effect url="#Plywood_jpg-effect"/>
+    </material>
+    <material id="regulator_png-material" name="regulator_png">
+      <instance_effect url="#regulator_png-effect"/>
+    </material>
+    <material id="relay_png-material" name="relay_png">
+      <instance_effect url="#relay_png-effect"/>
+    </material>
+    <material id="relay2_png-material" name="relay2_png">
+      <instance_effect url="#relay2_png-effect"/>
+    </material>
+    <material id="router_png-material" name="router_png">
+      <instance_effect url="#router_png-effect"/>
+    </material>
+    <material id="router2_png-material" name="router2_png">
+      <instance_effect url="#router2_png-effect"/>
+    </material>
+    <material id="small_wheel_png-material" name="small_wheel_png">
+      <instance_effect url="#small_wheel_png-effect"/>
+    </material>
+    <material id="start_switch_png-material" name="start_switch_png">
+      <instance_effect url="#start_switch_png-effect"/>
+    </material>
+    <material id="trainMotor_png-material" name="trainMotor_png">
+      <instance_effect url="#trainMotor_png-effect"/>
+    </material>
+    <material id="usb_ports_png_001-material" name="usb_ports_png_001">
+      <instance_effect url="#usb_ports_png_001-effect"/>
+    </material>
+    <material id="vehicle_base_png-material" name="vehicle_base_png">
+      <instance_effect url="#vehicle_base_png-effect"/>
+    </material>
+    <material id="wheel_png-material" name="wheel_png">
+      <instance_effect url="#wheel_png-effect"/>
+    </material>
+    <material id="wheel_protector_png-material" name="wheel_protector_png">
+      <instance_effect url="#wheel_protector_png-effect"/>
+    </material>
+    <material id="wifi_router_3_png-material" name="wifi_router_3_png">
+      <instance_effect url="#wifi_router_3_png-effect"/>
+    </material>
+    <material id="xavier_png-material" name="xavier_png">
+      <instance_effect url="#xavier_png-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="Cylinder_037-mesh" name="Cylinder.037">
+      <mesh>
+        <source id="Cylinder_037-mesh-positions">
+          <float_array id="Cylinder_037-mesh-positions-array" count="192">0 0.02539998 0.07302498 0 -0.02539998 0.07302498 0.0142464 0.02539998 0.07162183 0.01424646 -0.02539998 0.07162183 0.02794539 0.02539998 0.06746625 0.02794545 -0.02539998 0.06746625 0.04057049 0.02539998 0.06071805 0.04057049 -0.02539992 0.06071805 0.05163645 0.02539998 0.05163645 0.05163645 -0.02539992 0.05163645 0.06071799 0.02540004 0.04057049 0.06071805 -0.02539992 0.04057049 0.06746625 0.02540004 0.02794545 0.06746631 -0.02539992 0.02794539 0.07162177 0.02540004 0.01424646 0.07162183 -0.02539992 0.01424646 0.07302498 0.02540004 0 0.07302498 -0.02539992 0 0.07162183 0.02540004 -0.0142464 0.07162183 -0.02539992 -0.01424646 0.06746625 0.02540004 -0.02794539 0.06746631 -0.02539992 -0.02794539 0.06071799 0.02540004 -0.04057049 0.06071805 -0.02539992 -0.04057049 0.05163645 0.02539998 -0.05163645 0.05163645 -0.02539992 -0.05163645 0.04057049 0.02539998 -0.06071805 0.04057049 -0.02539992 -0.06071805 0.02794539 0.02539998 -0.06746625 0.02794545 -0.02539998 -0.06746625 0.0142464 0.02539998 -0.07162183 0.01424646 -0.02539998 -0.07162183 0 0.02539998 -0.07302498 0 -0.02539998 -0.07302498 -0.01424646 0.02539998 -0.07162183 -0.01424646 -0.02539998 -0.07162183 -0.02794545 0.02539998 -0.06746625 -0.02794545 -0.02539998 -0.06746625 -0.04057055 0.02539992 -0.06071799 -0.04057049 -0.02539998 -0.06071799 -0.05163651 0.02539992 -0.05163639 -0.05163645 -0.02539998 -0.05163639 -0.06071805 0.02539992 -0.04057043 -0.06071805 -0.02540004 -0.04057043 -0.06746631 0.02539992 -0.02794539 -0.06746631 -0.02540004 -0.02794539 -0.07162183 0.02539992 -0.0142464 -0.07162183 -0.02540004 -0.0142464 -0.07302498 0.02539992 0 -0.07302498 -0.02540004 0 -0.07162183 0.02539992 0.01424652 -0.07162177 -0.02540004 0.01424652 -0.06746625 0.02539992 0.02794551 -0.06746625 -0.02540004 0.02794551 -0.06071799 0.02539992 0.04057055 -0.06071799 -0.02540004 0.04057055 -0.05163639 0.02539992 0.05163651 -0.05163633 -0.02539998 0.05163651 -0.04057043 0.02539992 0.06071811 -0.04057037 -0.02539998 0.06071811 -0.02794533 0.02539998 0.06746631 -0.02794533 -0.02539998 0.06746631 -0.01424634 0.02539998 0.07162183 -0.01424634 -0.02539998 0.07162183</float_array>
+          <technique_common>
+            <accessor source="#Cylinder_037-mesh-positions-array" count="64" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Cylinder_037-mesh-normals">
+          <float_array id="Cylinder_037-mesh-normals-array" count="372">0.09801638 0 0.9951849 0.290284 1.80092e-7 0.9569405 0.4713966 2.80144e-7 0.8819214 0.6343932 4.00205e-7 0.7730106 0.7730106 4.80246e-7 0.6343931 0.8819213 4.80247e-7 0.4713966 0.9569404 6.40329e-7 0.2902846 0.9951847 6.38861e-7 0.09801757 0.9951847 6.40329e-7 -0.09801703 0.9569404 6.40329e-7 -0.2902846 0.8819215 6.40328e-7 -0.4713966 0.7730106 6.40328e-7 -0.6343931 0.6343931 4.80246e-7 -0.7730107 0.4713963 3.60185e-7 -0.8819215 0.2902844 2.00103e-7 -0.9569404 0.09801691 0 -0.9951848 -0.09801828 0 -0.9951847 -0.2902853 -2.00103e-7 -0.9569402 -0.4713965 -2.80144e-7 -0.8819215 -0.6343942 -4.00205e-7 -0.7730098 -0.773011 -3.56676e-7 -0.6343927 -0.8819215 -3.78484e-7 -0.4713964 -0.9569408 -4.76781e-7 -0.2902833 -0.9951848 -3.20164e-7 -0.09801644 -0.9951847 -4.53418e-7 0.09801852 -0.9569402 -5.38567e-7 0.2902854 -0.8819208 -6.40328e-7 0.4713978 -0.7730094 -5.42765e-7 0.6343946 -0.6343923 -3.20164e-7 0.7730113 -0.4713961 -2.80144e-7 0.8819217 6.63179e-7 -1 0 -0.2902827 -1.80092e-7 0.956941 -0.09801709 0 0.9951847 -6.50302e-7 1 0 0.09801834 0 0.9951846 0.2902853 2.00103e-7 0.9569402 0.4713966 2.40123e-7 0.8819214 0.6343933 2.22599e-7 0.7730105 0.7730106 3.56677e-7 0.6343932 0.8819214 3.78485e-7 0.4713968 0.9569405 6.135e-7 0.2902845 0.9951847 6.40329e-7 0.09801751 0.9951848 4.53417e-7 -0.09801703 0.9569405 5.38567e-7 -0.2902845 0.8819212 5.16759e-7 -0.471397 0.7730106 5.42763e-7 -0.6343932 0.6343932 3.20164e-7 -0.7730106 0.4713973 2.80144e-7 -0.8819211 0.2902839 1.80092e-7 -0.9569406 0.09801697 0 -0.9951848 -0.09801632 0 -0.9951848 -0.2902858 -1.80092e-7 -0.95694 -0.4713973 -3.60184e-7 -0.8819209 -0.6343937 -2.22598e-7 -0.7730103 -0.773011 -4.80246e-7 -0.6343926 -0.8819214 -4.80246e-7 -0.4713965 -0.9569408 -6.40328e-7 -0.2902833 -0.9951848 -6.3886e-7 -0.09801644 -0.9951847 -6.40328e-7 0.09801852 -0.9569401 -6.40329e-7 0.2902855 -0.8819209 -5.1676e-7 0.4713976 -0.7730097 -6.40328e-7 0.6343942 -0.6343926 -4.80246e-7 0.7730111 -0.471395 -3.60185e-7 0.8819222 6.41157e-7 -1 -1.45592e-6 6.57965e-7 -1 0 6.6653e-7 -1 0 4.34842e-7 -1 0 2.17915e-7 -1 0 0 -1 0 8.8785e-7 -1 0 4.4823e-7 -1 0 4.66655e-7 -1 -5.01234e-7 6.45583e-7 -1 9.83205e-7 4.3484e-7 -1 0 6.41164e-7 -1 -1.45592e-6 6.57962e-7 -1 0 6.6653e-7 -1 0 5.10122e-7 -1 -5.01234e-7 6.3357e-7 -1 0 2.17914e-7 -1 7.27961e-7 0 -1 3.63982e-7 8.87846e-7 -1 -1.229e-7 4.48233e-7 -1 0 2.17912e-7 -1 -1.45591e-6 4.34842e-7 -1 0 6.6653e-7 -1 0 6.47588e-7 -1 -2.84845e-7 7.06001e-7 -1 0 6.17174e-7 -1 0 6.59829e-7 -1 0 6.66528e-7 -1 0 6.63179e-7 -1 0 -0.2902826 -2.00103e-7 0.956941 -0.09801644 0 0.9951849 -6.53723e-7 1 1.45593e-6 -7.97563e-7 1 -1.45592e-6 -7.92908e-7 1 0 -1.3265e-6 1 -3.63982e-7 -1.32746e-6 1 0 -1.32649e-6 1 1.45592e-6 -6.72868e-7 1 -1.5037e-6 -5.99667e-7 1 9.83205e-7 -7.97566e-7 1 0 -6.53722e-7 1 -1.45592e-6 -6.5372e-7 1 1.96641e-6 -6.78481e-7 1 0 -7.92906e-7 1 -1.45592e-6 -1.32647e-6 1 -7.27948e-7 -1.32747e-6 1 0 -1.32648e-6 1 0 -6.72867e-7 1 0 -5.99666e-7 1 0 -7.97564e-7 1 1.45591e-6 -6.53724e-7 1 -2.84846e-7 -6.28015e-7 1 1.31581e-7 -6.21588e-7 1 -3.74711e-7 -6.83301e-7 1 -1.87355e-7 -6.45224e-7 1 -2.63161e-7 -6.38301e-7 1 0 -6.49283e-7 1 0 -6.25229e-7 1 -2.63161e-7 -6.34864e-7 1 0 -6.50302e-7 1 0</float_array>
+          <technique_common>
+            <accessor source="#Cylinder_037-mesh-normals-array" count="124" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Cylinder_037-mesh-map">
+          <float_array id="Cylinder_037-mesh-map-array" count="744">0.4259274 0.1306357 0.667748 0.171368 0.421435 0.1610744 0.421435 0.1610744 0.6629788 0.2036815 0.4166659 0.1933879 0.6629788 0.2036815 0.4118033 0.2263344 0.4166659 0.1933879 0.6581163 0.2366281 0.4070342 0.2586479 0.4118033 0.2263344 0.6533472 0.2689416 0.4025418 0.2890866 0.4070342 0.2586479 0.6488548 0.2993802 0.3984989 0.3164806 0.4025418 0.2890866 0.6448117 0.3267743 0.3950605 0.3397773 0.3984989 0.3164806 0.3950605 0.3397773 0.6386719 0.3683751 0.3923591 0.3580815 0.6812892 0.07011747 0.4322747 0.07812792 0.4349762 0.05982381 0.6785877 0.08842158 0.4288364 0.1014246 0.4322747 0.07812792 0.6751494 0.1117182 0.4247933 0.1288187 0.4288364 0.1014246 0.6711063 0.1391124 0.4203009 0.1592574 0.4247933 0.1288187 0.6666139 0.169551 0.4155318 0.1915709 0.4203009 0.1592574 0.4155318 0.1915709 0.6569823 0.2348111 0.4106693 0.2245175 0.6569823 0.2348111 0.4059001 0.256831 0.4106693 0.2245175 0.6522131 0.2671246 0.4014077 0.2872697 0.4059001 0.256831 0.6477207 0.2975634 0.3973646 0.3146638 0.4014077 0.2872697 0.6436777 0.3249574 0.3939263 0.3379606 0.3973646 0.3146638 0.3939263 0.3379606 0.6375378 0.3665582 0.3912248 0.3562646 0.3926719 0.3464601 0.6424232 0.3334568 0.6389849 0.3567536 0.6424232 0.3334568 0.4001533 0.2957692 0.6464663 0.3060628 0.6464663 0.3060628 0.4046457 0.2653304 0.6509587 0.275624 0.6509587 0.275624 0.4094148 0.2330169 0.6557278 0.2433105 0.4094148 0.2330169 0.6605904 0.210364 0.6557278 0.2433105 0.6605904 0.210364 0.4190465 0.1677569 0.6653595 0.1780505 0.6653595 0.1780505 0.4235389 0.1373182 0.6698519 0.1476118 0.4235389 0.1373182 0.673895 0.1202178 0.6698519 0.1476118 0.673895 0.1202178 0.4310203 0.08662736 0.6773333 0.09692096 0.6773333 0.09692096 0.4337218 0.06832319 0.6800348 0.07861685 0.6824229 0.07193458 0.4334087 0.07994514 0.4361103 0.06164091 0.1966116 0.8561517 0.3583369 0.6050438 0.8914741 0.6812164 0.4334087 0.07994514 0.6762834 0.1135355 0.4299705 0.1032419 0.4299705 0.1032419 0.6722404 0.1409294 0.4259274 0.1306357 0.5837798 0.584657 0.1472325 0.7494654 0.5054978 0.9502851 0.4259274 0.1306357 0.6722404 0.1409294 0.667748 0.171368 0.421435 0.1610744 0.667748 0.171368 0.6629788 0.2036815 0.6629788 0.2036815 0.6581163 0.2366281 0.4118033 0.2263344 0.6581163 0.2366281 0.6533472 0.2689416 0.4070342 0.2586479 0.6533472 0.2689416 0.6488548 0.2993802 0.4025418 0.2890866 0.6488548 0.2993802 0.6448117 0.3267743 0.3984989 0.3164806 0.6448117 0.3267743 0.6413734 0.350071 0.3950605 0.3397773 0.3950605 0.3397773 0.6413734 0.350071 0.6386719 0.3683751 0.6812892 0.07011747 0.6785877 0.08842158 0.4322747 0.07812792 0.6785877 0.08842158 0.6751494 0.1117182 0.4288364 0.1014246 0.6751494 0.1117182 0.6711063 0.1391124 0.4247933 0.1288187 0.6711063 0.1391124 0.6666139 0.169551 0.4203009 0.1592574 0.6666139 0.169551 0.6618448 0.2018646 0.4155318 0.1915709 0.4155318 0.1915709 0.6618448 0.2018646 0.6569823 0.2348111 0.6569823 0.2348111 0.6522131 0.2671246 0.4059001 0.256831 0.6522131 0.2671246 0.6477207 0.2975634 0.4014077 0.2872697 0.6477207 0.2975634 0.6436777 0.3249574 0.3973646 0.3146638 0.6436777 0.3249574 0.6402393 0.3482541 0.3939263 0.3379606 0.3939263 0.3379606 0.6402393 0.3482541 0.6375378 0.3665582 0.3926719 0.3464601 0.3961102 0.3231632 0.6424232 0.3334568 0.6424232 0.3334568 0.3961102 0.3231632 0.4001533 0.2957692 0.6464663 0.3060628 0.4001533 0.2957692 0.4046457 0.2653304 0.6509587 0.275624 0.4046457 0.2653304 0.4094148 0.2330169 0.4094148 0.2330169 0.4142774 0.2000705 0.6605904 0.210364 0.6605904 0.210364 0.4142774 0.2000705 0.4190465 0.1677569 0.6653595 0.1780505 0.4190465 0.1677569 0.4235389 0.1373182 0.4235389 0.1373182 0.427582 0.1099241 0.673895 0.1202178 0.673895 0.1202178 0.427582 0.1099241 0.4310203 0.08662736 0.6773333 0.09692096 0.4310203 0.08662736 0.4337218 0.06832319 0.6824229 0.07193458 0.6797215 0.09023874 0.4334087 0.07994514 0.7297484 0.9323243 0.6583997 0.9462438 0.5826564 0.9533403 0.5826564 0.9533403 0.5054296 0.9533403 0.7297484 0.9323243 0.5054296 0.9533403 0.4296862 0.9462441 0.7297484 0.9323243 0.4296862 0.9462441 0.3583371 0.9323243 0.2941249 0.912116 0.2941249 0.912116 0.2395168 0.8863957 0.1966116 0.8561517 0.1966116 0.8561517 0.1670578 0.8225464 0.1519912 0.786871 0.1519912 0.786871 0.1519912 0.7504969 0.1966116 0.8561517 0.1519912 0.7504969 0.1670578 0.7148218 0.1966116 0.8561517 0.1670578 0.7148218 0.1966112 0.6812165 0.3583369 0.6050438 0.1966112 0.6812165 0.2395165 0.6509726 0.3583369 0.6050438 0.2395165 0.6509726 0.2941244 0.6252523 0.3583369 0.6050438 0.3583369 0.6050438 0.4296854 0.5911239 0.505429 0.5840275 0.505429 0.5840275 0.5826564 0.5840275 0.3583369 0.6050438 0.5826564 0.5840275 0.6583997 0.5911239 0.3583369 0.6050438 0.6583997 0.5911239 0.7297487 0.6050438 0.8914741 0.6812164 0.7297487 0.6050438 0.7939608 0.625252 0.8914741 0.6812164 0.7939608 0.625252 0.8485689 0.6509726 0.8914741 0.6812164 0.8914741 0.6812164 0.9210274 0.7148217 0.9360939 0.7504968 0.9360939 0.7504968 0.9360939 0.7868708 0.8914741 0.6812164 0.9360939 0.7868708 0.9210274 0.8225463 0.8914741 0.6812164 0.9210274 0.8225463 0.8914741 0.8561516 0.8485686 0.8863955 0.8485686 0.8863955 0.7939608 0.912116 0.7297484 0.9323243 0.4296862 0.9462441 0.2941249 0.912116 0.7297484 0.9323243 0.2941249 0.912116 0.1966116 0.8561517 0.7297484 0.9323243 0.9210274 0.8225463 0.8485686 0.8863955 0.8914741 0.6812164 0.8485686 0.8863955 0.7297484 0.9323243 0.8914741 0.6812164 0.1966116 0.8561517 0.1670578 0.7148218 0.3583369 0.6050438 0.3583369 0.6050438 0.6583997 0.5911239 0.8914741 0.6812164 0.7297484 0.9323243 0.1966116 0.8561517 0.8914741 0.6812164 0.4334087 0.07994514 0.6797215 0.09023874 0.6762834 0.1135355 0.4299705 0.1032419 0.6762834 0.1135355 0.6722404 0.1409294 0.5054978 0.9502851 0.5837795 0.9502851 0.6605573 0.9432598 0.6605573 0.9432598 0.7328807 0.9294785 0.7979698 0.9094719 0.7979698 0.9094719 0.8533234 0.8840082 0.8968147 0.8540658 0.8968147 0.8540658 0.9267721 0.8207959 0.942044 0.7854769 0.942044 0.7854769 0.942044 0.7494654 0.9267723 0.7141462 0.9267723 0.7141462 0.8968149 0.6808762 0.8533238 0.650934 0.8533238 0.650934 0.7979701 0.6254701 0.5837798 0.584657 0.7979701 0.6254701 0.7328809 0.6054633 0.5837798 0.584657 0.7328809 0.6054633 0.6605575 0.5916824 0.5837798 0.584657 0.5837798 0.584657 0.5054974 0.584657 0.4287196 0.5916824 0.4287196 0.5916824 0.3563962 0.6054633 0.5837798 0.584657 0.3563962 0.6054633 0.2913071 0.6254701 0.5837798 0.584657 0.2913071 0.6254701 0.2359533 0.650934 0.1924623 0.680876 0.1924623 0.680876 0.1625048 0.7141462 0.1472325 0.7494654 0.1472325 0.7494654 0.1472328 0.7854769 0.162505 0.8207959 0.162505 0.8207959 0.1924625 0.8540658 0.2359535 0.8840084 0.2359535 0.8840084 0.2913073 0.9094719 0.5054978 0.9502851 0.2913073 0.9094719 0.3563966 0.9294788 0.5054978 0.9502851 0.3563966 0.9294788 0.4287201 0.9432598 0.5054978 0.9502851 0.5054978 0.9502851 0.6605573 0.9432598 0.942044 0.7854769 0.6605573 0.9432598 0.7979698 0.9094719 0.942044 0.7854769 0.7979698 0.9094719 0.8968147 0.8540658 0.942044 0.7854769 0.942044 0.7854769 0.9267723 0.7141462 0.8533238 0.650934 0.2913071 0.6254701 0.1924623 0.680876 0.5837798 0.584657 0.1924623 0.680876 0.1472325 0.7494654 0.5837798 0.584657 0.1472325 0.7494654 0.162505 0.8207959 0.5054978 0.9502851 0.162505 0.8207959 0.2359535 0.8840084 0.5054978 0.9502851 0.942044 0.7854769 0.8533238 0.650934 0.5837798 0.584657 0.5054978 0.9502851 0.942044 0.7854769 0.5837798 0.584657</float_array>
+          <technique_common>
+            <accessor source="#Cylinder_037-mesh-map-array" count="372" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Cylinder_037-mesh-vertices">
+          <input semantic="POSITION" source="#Cylinder_037-mesh-positions"/>
+        </vertices>
+        <triangles material="small_wheel_png-material" count="124">
+          <input semantic="VERTEX" source="#Cylinder_037-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Cylinder_037-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#Cylinder_037-mesh-map" offset="2" set="0"/>
+          <p>0 0 0 3 0 1 2 0 2 2 1 3 5 1 4 4 1 5 5 2 6 6 2 7 4 2 8 7 3 9 8 3 10 6 3 11 9 4 12 10 4 13 8 4 14 11 5 15 12 5 16 10 5 17 13 6 18 14 6 19 12 6 20 14 7 21 17 7 22 16 7 23 17 8 24 18 8 25 16 8 26 19 9 27 20 9 28 18 9 29 21 10 30 22 10 31 20 10 32 23 11 33 24 11 34 22 11 35 25 12 36 26 12 37 24 12 38 26 13 39 29 13 40 28 13 41 29 14 42 30 14 43 28 14 44 31 15 45 32 15 46 30 15 47 33 16 48 34 16 49 32 16 50 35 17 51 36 17 52 34 17 53 36 18 54 39 18 55 38 18 56 39 19 57 40 19 58 38 19 59 40 20 60 43 20 61 42 20 62 42 21 63 45 21 64 44 21 65 44 22 66 47 22 67 46 22 68 47 23 69 48 23 70 46 23 71 48 24 72 51 24 73 50 24 74 50 25 75 53 25 76 52 25 77 53 26 78 54 26 79 52 26 80 54 27 81 57 27 82 56 27 83 56 28 84 59 28 85 58 28 86 59 29 87 60 29 88 58 29 89 53 30 90 37 30 91 21 30 92 60 31 93 63 31 94 62 31 95 62 32 96 1 32 97 0 32 98 30 33 99 46 33 100 62 33 101 0 34 102 1 34 103 3 34 104 2 35 105 3 35 106 5 35 107 5 36 108 7 36 109 6 36 110 7 37 111 9 37 112 8 37 113 9 38 114 11 38 115 10 38 116 11 39 117 13 39 118 12 39 119 13 40 120 15 40 121 14 40 122 14 41 123 15 41 124 17 41 125 17 42 126 19 42 127 18 42 128 19 43 129 21 43 130 20 43 131 21 44 132 23 44 133 22 44 134 23 45 135 25 45 136 24 45 137 25 46 138 27 46 139 26 46 140 26 47 141 27 47 142 29 47 143 29 48 144 31 48 145 30 48 146 31 49 147 33 49 148 32 49 149 33 50 150 35 50 151 34 50 152 35 51 153 37 51 154 36 51 155 36 52 156 37 52 157 39 52 158 39 53 159 41 53 160 40 53 161 40 54 162 41 54 163 43 54 164 42 55 165 43 55 166 45 55 167 44 56 168 45 56 169 47 56 170 47 57 171 49 57 172 48 57 173 48 58 174 49 58 175 51 58 176 50 59 177 51 59 178 53 59 179 53 60 180 55 60 181 54 60 182 54 61 183 55 61 184 57 61 185 56 62 186 57 62 187 59 62 188 59 63 189 61 63 190 60 63 191 5 64 192 3 64 193 1 64 194 1 65 195 63 65 196 5 65 197 63 66 198 61 66 199 5 66 200 61 67 201 59 67 202 57 67 203 57 68 204 55 68 205 53 68 206 53 69 207 51 69 208 49 69 209 49 70 210 47 70 211 53 70 212 47 71 213 45 71 214 53 71 215 45 72 216 43 72 217 37 72 218 43 73 219 41 73 220 37 73 221 41 74 222 39 74 223 37 74 224 37 75 225 35 75 226 33 75 227 33 76 228 31 76 229 37 76 230 31 77 231 29 77 232 37 77 233 29 78 234 27 78 235 21 78 236 27 79 237 25 79 238 21 79 239 25 80 240 23 80 241 21 80 242 21 81 243 19 81 244 17 81 245 17 82 246 15 82 247 21 82 248 15 83 249 13 83 250 21 83 251 13 84 252 11 84 253 9 84 254 9 85 255 7 85 256 5 85 257 61 86 258 57 86 259 5 86 260 57 87 261 53 87 262 5 87 263 13 88 264 9 88 265 21 88 266 9 89 267 5 89 268 21 89 269 53 90 270 45 90 271 37 90 272 37 91 273 29 91 274 21 91 275 5 92 276 53 92 277 21 92 278 60 93 279 61 93 280 63 93 281 62 94 282 63 94 283 1 94 284 62 95 285 0 95 286 2 95 287 2 96 288 4 96 289 6 96 290 6 97 291 8 97 292 10 97 293 10 98 294 12 98 295 14 98 296 14 99 297 16 99 298 18 99 299 18 100 300 20 100 301 22 100 302 22 101 303 24 101 304 30 101 305 24 102 306 26 102 307 30 102 308 26 103 309 28 103 310 30 103 311 30 104 312 32 104 313 34 104 314 34 105 315 36 105 316 30 105 317 36 106 318 38 106 319 30 106 320 38 107 321 40 107 322 42 107 323 42 108 324 44 108 325 46 108 326 46 109 327 48 109 328 50 109 329 50 110 330 52 110 331 54 110 332 54 111 333 56 111 334 62 111 335 56 112 336 58 112 337 62 112 338 58 113 339 60 113 340 62 113 341 62 114 342 2 114 343 14 114 344 2 115 345 6 115 346 14 115 347 6 116 348 10 116 349 14 116 350 14 117 351 18 117 352 22 117 353 38 118 354 42 118 355 30 118 356 42 119 357 46 119 358 30 119 359 46 120 360 50 120 361 62 120 362 50 121 363 54 121 364 62 121 365 14 122 366 22 122 367 30 122 368 62 123 369 14 123 370 30 123 371</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_controllers/>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="Small_Wheel" name="Small_Wheel" type="NODE">
+        <matrix sid="transform">-1 3.25841e-7 0 0.3630813 -3.25841e-7 -1 0 0.1996596 0 0 1 0.07350083 0 0 0 1</matrix>
+        <instance_geometry url="#Cylinder_037-mesh" name="Small_Wheel">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="small_wheel_png-material" target="#small_wheel_png-material">
+                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>
