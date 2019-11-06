@@ -13,6 +13,11 @@ import Queue
 import matplotlib.pyplot as plt
 
 
+class Point():
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
 class PathNavigation():
 
     def __init__(self):
@@ -29,14 +34,19 @@ class PathNavigation():
         # User specified tolerance and gains
         self.distance_tolerance = 0.6
         self.lin_vel = .4 #.2 worked
-        self.Kp_w = 6
+        self.Kp_w = 6 # 6 default
 
     #Callback function implementing the odom value received
     def odom_callback(self, data):
         self.odom = data
         
     def point_queue_callback(self, msg): #FIFO Queue
-        array = msg.points
+        first = msg[0]
+        point = Point(first[0], first[1])
+        self.queue.insert(0, point)
+        
+    def do_nothing(self, msg):
+        array = msg
         #dimension = np.asarray(array).shape
         i = 0
         distance_to = 0
@@ -55,6 +65,7 @@ class PathNavigation():
                     rospy.logerr("there's a problem in point_queue_callback: line.56")
                     break # # If i is larger than half of the array segmentation can't keep up with speed
             i += 1
+        
         index_offset = 1 # Added to account for latency (will be affected by point density in line)
         filtered_points = array[i+index_offset:]
         print("Split at: " + str(i) + "/" + str(len(array)))
@@ -92,7 +103,6 @@ class PathNavigation():
         vel_msg = Twist()
         
         while self.get_distance(goal_pose_x, goal_pose_y) >= self.distance_tolerance:
-
             orient = self.odom.pose.pose.orientation
             [roll, pitch, yaw] = tf.transformations.euler_from_quaternion([orient.x, orient.y, orient.z, orient.w])
             theta = atan2(goal_pose_y - pose.y, goal_pose_x - pose.x)
@@ -132,15 +142,9 @@ if __name__ == '__main__':
         cmd_vel_topic = rospy.get_param('~cmd_vel_topic', 'pacman_equiv/cmd_vel')
         odom_topic = rospy.get_param('~odom_topic', 'pacman_equiv/odom')
         robot = PathNavigation()
-        #print(cmd_vel_topic)
-        
-        while not rospy.is_shutdown(): #len(robot.queue) > 0:
-            if len(robot.queue) > 0:
-                robot.move2point()
-        
-        rospy.spin()
-       
-        raise SystemExit
+        print(cmd_vel_topic)
+                
+        #raise SystemExit
 
         robot.point_queue_callback([(0.755172, -0.013588)])
         robot.point_queue_callback([(0.755172, -0.013588)])
@@ -204,5 +208,13 @@ if __name__ == '__main__':
         robot.point_queue_callback([(-3.255182, 0.344254)])
         robot.point_queue_callback([(-1.638494, 0.005272)])
         robot.point_queue_callback([(0.012957, -0.012112)])
+
+        
+        while not rospy.is_shutdown(): #len(robot.queue) > 0:
+            if len(robot.queue) > 0:
+                robot.move2point()
+        
+        rospy.spin()
+
     except rospy.ROSInterruptException:
         pass
