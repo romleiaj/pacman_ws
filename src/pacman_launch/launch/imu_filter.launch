@@ -4,6 +4,8 @@
   <node pkg="imu_filter_madgwick" type="imu_filter_node" name="piksi_imu_filter_node" 
     output="screen">
     <param name="use_mag" value="false"/>
+    <param name="publish_tf" value="false"/>
+    <param name="reverse_tf" value="true"/>
     <param name="use_magnetic_field_msg" value="false"/>
     <remap from="/imu/data_raw" to="/piksi/imu"/> 
     <remap from="/imu/data" to="/piksi/imu_pose"/> 
@@ -12,6 +14,8 @@
   <node pkg="imu_filter_madgwick" type="imu_filter_node" name="os1_imu_filter_node" 
     output="screen">
     <param name="use_mag" value="false"/>
+    <param name="publish_tf" value="false"/>
+    <param name="reverse_tf" value="true"/>
     <param name="use_magnetic_field_msg" value="false"/>
     <remap from="/imu/data_raw" to="/os1_cloud_node/imu"/>
     <remap from="/imu/data" to="/os1/imu_pose"/>
