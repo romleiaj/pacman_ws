@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-SESSION="analytics"
+SESSION="navigation"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 # This trap will watch what supervisor sends

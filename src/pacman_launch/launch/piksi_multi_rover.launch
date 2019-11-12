@@ -27,6 +27,7 @@
     <param name="interface"                               value="$(arg interface)"/>
     <param name="baud_rate"                               value="$(arg baud_rate)"/>
     <param name="tcp_addr"                                value="$(arg tcp_addr)"/>
+    <param name="navsatfix_frame_id"                      value="piksi_antenna"/>
     <param name="base_station_ip_for_latency_estimation"  value="$(arg base_station_ip)"/>
     <!-- Force rover mode -->
     <param name="base_station_mode"                       value="false"/>
