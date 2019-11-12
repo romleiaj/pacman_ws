@@ -116,8 +116,8 @@ imu0: os1/imu_pose
 imu0_config: [false,  false,  false,
               false,  false,  false,
               false,  false,  false,
-              false,  false,  true,
-              true,  false,  false]
+              false,  false,  true, # true 3
+              true,  false,  false] # true 1
 imu0_nodelay: false
 imu0_differential: false
 imu0_relative: true

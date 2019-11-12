@@ -51,7 +51,7 @@
 			<inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
 		</inertial>
 		<visual>
-			<origin xyz="0 -0.2646172A -0.123838716" rpy="0 0 0" />
+			<origin xyz="0 -0.2646172 -0.123838716" rpy="0 0 0" />
 			<geometry>
 				<mesh filename="file://$(arg modelDirectory)/materials/textures/left_wheel.dae"/>
 			</geometry>
@@ -238,7 +238,7 @@
 	</joint>
 
 	<joint  name="os1/os1_sensor_joint" type="fixed">
-    	  <origin xyz="0 0 0.905932656" rpy="0 3.14159265359 -1.57079632679" />
+    	  <origin xyz="0 0 0.905932656" rpy="3.14159265359 3.14159265359 -1.57079632679" />
     	  <parent link="base_link"/>
           <child link="os1/os1_sensor"/>
 	</joint>
