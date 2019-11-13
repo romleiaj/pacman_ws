@@ -62,7 +62,7 @@ class Reader():
 
                 cv2.imwrite("patted_warped.png", padded_warped)
                 heading_angle =np.rad2deg( np.arctan(self.heading[1] / self.heading[0] ) )
-                heading_angle += 180 # Trying to determine the correct convention
+                heading_angle -= 90 # Trying to determine the correct convention
                 print(heading_angle)
                 rotated = ndimage.rotate(padded_warped, heading_angle)
                 cv2.imwrite("rotated_warped.png", rotated)

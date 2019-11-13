@@ -14,7 +14,7 @@ class AbsoluteOdom():
         self.rate = rate
         rospy.init_node("OdometryAccumulator")
         self.pub = rospy.Publisher("/absolute_odom", Odometry,queue_size=10)
-        self.subscriber = rospy.Subscriber("/odom", Odometry, self.read_odom)
+        self.subscriber = rospy.Subscriber("/encoders/odom", Odometry, self.read_odom)
         self.input_odom = None
         self.output_odom = Odometry()
         rospy.spin()
@@ -29,7 +29,7 @@ class AbsoluteOdom():
         self.output_odom.pose.pose.orientation.z += msg.pose.pose.orientation.z
         self.output_odom.pose.pose.orientation.w += msg.pose.pose.orientation.w
         self.pub.publish(self.output_odom)
-        plt.scatter(self.output_odom.pose.pose.position.x, self.output_odom.pose.pose.position.y)
+        plt.scatter(msg.pose.pose.position.x, msg.pose.pose.position.y)
         if np.random.randint(100) == 0:
             print("saving")
             plt.savefig("/home/grobots/pacman_ws/src/utility_scripts/scripts/gps.png")
