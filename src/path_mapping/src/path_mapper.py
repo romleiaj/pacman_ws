@@ -9,6 +9,7 @@ import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt 
 import yaml
+from scipy import ndimage
 from sensor_msgs.msg import Image
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from nav_msgs.msg import Odometry
@@ -21,8 +22,8 @@ class Reader():
         self.latest_image = None
         self.heading = None
         self.adjusted = None
-        self.height = 4800
-        self.width = 6400
+        self.height = 4000
+        self.width = 4000 
         self.canvas = np.zeros((self.height,self.width,3), np.uint8)
 
         rospy.init_node('bla',anonymous=True)
@@ -42,28 +43,34 @@ class Reader():
 
         rospy.spin()
 
-    def vis_callback(self, img ):
+    def vis_callback(self, img, scale=30.48): # centimeters in a foot
         #Wprint(img.data)
         try:
             im = bridge.imgmsg_to_cv2(img, desired_encoding="bgr8")
             cv2.imwrite("segmented.png", im)
             self.latest_image = im
             print(self.latest_image.shape)
-            size = 100
-            scale = 20
             if self.adjusted is not None:
+                print("adjusted {}".format(self.adjusted))
                 x = int(self.adjusted[0] * scale + self.width / 2.0)
                 y = int(self.adjusted[1] * scale + self.height / 2.0)
                 segmentation_half = self.latest_image[:,int(self.latest_image.shape[1]/2.0):, :]
                 resized = cv2.resize(segmentation_half, self.input_shape)
-                warped = cv2.warpPerspective(resized, self.homography, (size, size))
-                cv2.imwrite("warped.png", warped)
+                cv2.imwrite("resized.png", resized)
+                warped = cv2.warpPerspective(resized, self.homography, self.output_shape)
+                padded_warped = np.concatenate((warped, np.zeros_like(warped, dtype=np.uint8)), axis=0) # make the robot at the center # TODO change this to zeros_like
+
+                cv2.imwrite("patted_warped.png", padded_warped)
                 heading_angle =np.rad2deg( np.arctan(self.heading[1] / self.heading[0] ) )
+                heading_angle += 180 # Trying to determine the correct convention
                 print(heading_angle)
-                rotated = self.rotateImage(warped, heading_angle)
+                rotated = ndimage.rotate(padded_warped, heading_angle)
+                cv2.imwrite("rotated_warped.png", rotated)
                 #resized = cv2.resize(self.latest_image, (size, size))
                 print("rotated shape {}".format(rotated.shape))
-                self.canvas[y:y+size, x:x+size, :] = rotated
+                #self.canvas[y:y+rotated.shape[0], x:x+rotated.shape[1], :] = np.ones_like(rotated).astype(np.uint8) * 255
+                incremented = np.minimum( rotated + self.canvas[y:y+rotated.shape[0], x:x+rotated.shape[1], :], 255)
+                self.canvas[y:y+rotated.shape[0], x:x+rotated.shape[1], :] = incremented
                 cv2.imwrite("/home/grobots/pacman_ws/src/path_mapping/src/canvas.png", self.canvas)
         except CvBridgeError as e:
             rospy.logerr(e)
