@@ -22,6 +22,7 @@ class PathNavigation():
                 self.point_queue_callback)
         self.queue = []
         self.rate = rospy.Rate(30)
+        self.stopped = True
         
         # User specified tolerance and gains
         self.distance_tolerance = 0.1
@@ -37,20 +38,20 @@ class PathNavigation():
         dimension = np.asarray(array).shape
         i = 0
         distance_to = 0
-        distnace_to_prev = 0
+        distance_to_prev = 0
         i_valid = False
 
         if dimension[0] > 1: # Point Filtering
             for point in array:
                 #self.queue.insert(0, point)
                 distance_to_prev = distance_to
-                distance_to = self.get_distance(point[0], point[1])
+                distance_to = self.get_distance(point.x, point.y)
                 if i >= 2: # valid checking
-                    if (distance_to - distance_to_prev < 0) and (distnace_to <= self.distance_tolerance):
+                    if (distance_to - distance_to_prev < 0) and (distance_to <= self.distance_tolerance):
                         # closest to robot position
                         i_valid = True
                         break
-                    if i > floor(len(array)/2):
+                    if i > int(len(array)/2.):
                         rospy.logerr("there's a problem in point_queue_callback: line.56")
                         break # # If i is larger than half of the array segmentation can't keep up with speed
                 i += 1
@@ -61,13 +62,11 @@ class PathNavigation():
             filtered_points = array            
         for point in filtered_points:
             self.queue.insert(0, point)
-            self.in_op = True
         print("Insert Q Now: " + str(len(self.queue)))
         
     def get_next_point(self):
         if len(self.queue) < 1: # No points in queue
             print("no points in queue")
-            self.in_op = False
             raise Queue.Empty
         else:
             print("Popped Q Now: " + str(len(self.queue)))
@@ -85,16 +84,13 @@ class PathNavigation():
         except Queue.Empty:
             return
         #goal_point = np.asarray(goal_point) #I dont think this is needed
-        goal_pose_x = goal_point.x # x value
-        goal_pose_y = goal_point.y # y value
         vel_msg = Twist()
-
-        while self.get_distance(goal_pose_x, goal_pose_y) >= self.distance_tolerance\
+        while self.get_distance(goal_point.x, goal_point.y) >= self.distance_tolerance\
                 and not rospy.is_shutdown():
             orient = self.odom.pose.pose.orientation
             pose = self.odom.pose.pose.position
             [roll, pitch, yaw] = tf.transformations.euler_from_quaternion([orient.x, orient.y, orient.z, orient.w])
-            theta = atan2(goal_pose_y - pose.y, goal_pose_x - pose.x)
+            theta = atan2(goal_point.y - pose.y, goal_point.x - pose.x)
             
             #Porportional Controller
             
@@ -108,6 +104,9 @@ class PathNavigation():
                 turn_factor = 0
             if turn_factor > 1:
                 turn_factor = 1
+           # if self.stopped:
+           #     vel_msg.linear.x = self.lin_vel * turn_factor * self.get
+          #  else:
             vel_msg.linear.x = self.lin_vel * turn_factor
             #angular velocity in the z-axis: Add Differential
             delta_theta = theta - yaw
@@ -123,11 +122,13 @@ class PathNavigation():
             self.rate.sleep()
         
         if len(self.queue) == 0:
-            #self.in_op = False
+            self.stopped = True
             vel_msg.linear.x = 0
             vel_msg.angular.z = 0
             self.velocity_publisher.publish(vel_msg)
-
+        else:
+            self.stopped = False
+            
 if __name__ == '__main__':
     try:
         #Testing our function
