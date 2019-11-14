@@ -134,7 +134,7 @@ imu1_config: [false,  false,  false,
               false,  false,  true,
               true,  false,  false]
 imu1_nodelay: false
-imu1_differential: true
+imu1_differential: false
 imu1_relative: true
 imu1_queue_size: 5
 
