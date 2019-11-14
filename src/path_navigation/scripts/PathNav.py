@@ -85,6 +85,7 @@ class PathNavigation():
             return
         #goal_point = np.asarray(goal_point) #I dont think this is needed
         vel_msg = Twist()
+        initial_distance = self.get_distance(goal_point.x, goal_point.y)
         while self.get_distance(goal_point.x, goal_point.y) >= self.distance_tolerance\
                 and not rospy.is_shutdown():
             orient = self.odom.pose.pose.orientation
@@ -102,12 +103,21 @@ class PathNavigation():
             if turn_factor < 0:
                 rospy.logwarn("No forward velocity")
                 turn_factor = 0
-            if turn_factor > 1:
+            elif turn_factor > 1:
                 turn_factor = 1
-           # if self.stopped:
-           #     vel_msg.linear.x = self.lin_vel * turn_factor * self.get
-          #  else:
-            vel_msg.linear.x = self.lin_vel * turn_factor
+
+            distance_factor = (initial_distance - self.get_distance(goal_point.x, goal_point.y)) / initial_distance # More zero in the begining and becomes 1 towards end
+            if distance_factor < 0.1:
+                distance_factor = 0.1
+            elif distance_factor > 1:
+                distance_factor = 1
+            
+            if self.stopped and len(self.queue) > 0:
+                vel_msg.linear.x = self.lin_vel * turn_factor * distance_factor
+            elif not self.stopped and len(self.queue) == 0:
+                vel_msg.linear.x = self.lin_vel * turn_factor * (1-distance_factor)
+            else:
+                vel_msg.linear.x = self.lin_vel * turn_factor
             #angular velocity in the z-axis: Add Differential
             delta_theta = theta - yaw
             if delta_theta > pi:
