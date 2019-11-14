@@ -22,3 +22,6 @@
 [submodule "src/ouster_example"]
 	path = src/ouster_example
 	url = https://github.com/romleiaj/ouster_example.git
+[submodule "src/twist_mux"]
+	path = src/twist_mux
+	url = https://github.com/ros-teleop/twist_mux.git
