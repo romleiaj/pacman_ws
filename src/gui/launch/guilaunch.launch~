@@ -1,0 +1,3 @@
+<launch>
+	<node pkg="gui" type="scripts/pacmanGUI.py" name="gui_node" output="screen"/>
+</launch>
