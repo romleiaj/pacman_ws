@@ -63,7 +63,7 @@ class PathPlanning():
         # Thresholding path probability
         binarized = (warped > 100).astype(np.uint8) * 255
         # Eroding and dilating path clumps
-        erosion = cv2.erode(binarized, self.kernel, iterations = 4)
+        erosion = cv2.erode(binarized, self.kernel, iterations = 2)
         dilation = cv2.dilate(erosion, self.kernel, iterations = 2)
         mask = np.zeros_like(dilation)
         # TODO figure out if necessary
@@ -106,6 +106,8 @@ class PathPlanning():
         source = w * (h - 1) + w_2
         sink   = w * y_sink + x_sink
 
+        #hueristic_func = create_hueristic_func(1,3)
+
         # Publish estimate path
         cv2.circle(output, (w_2, h-1), 1, (0, 0, 255), thickness=5)
         cv2.circle(output, (x_sink, y_sink), 1, (255, 0, 0), thickness=5)
@@ -140,12 +142,17 @@ class PathPlanning():
         for mpt in rotated_list.T:
             pt = Point()
             pt.x = mpt[x]
-            pt.y = mpt[y]
+            pt.y = -mpt[y]
             pt_list.append(pt)
         
         pt_array.points = pt_list
         pt_array.header.stamp = rospy.Time.now()
         self.path_pub.publish(pt_array)
+
+    def create_hueristic_func(goal_i, goal_y):
+        def hueristic(u, v, edge, prev_edge):
+            return np.linalg.norm(np.asarray([goal_x, goal_y]) - np.asarray(edge[1:3]))
+        return hueristic
 
 
     def image2graph(self, img, true_val = 255, debug=False):

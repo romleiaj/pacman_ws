@@ -1,11 +1,10 @@
 <?xml version="1.0"?>
 <robot name="pacman">
 	<link name="base_footprint"/>
-	<link name="GPS_Receiver"/>
-	<link name="os1/os1_imu"/>
+	<link name="piksi_antenna"/>
+	<link name="os1/os1_sensor"/>
 	<link name="piksi_imu"/>
-	<link name="Front_Camera"/>
-
+	<link name="webcam"/> 
 
 	<link name="base_link">
 		<inertial>
@@ -52,7 +51,7 @@
 			<inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
 		</inertial>
 		<visual>
-			<origin xyz="0 -0.2646172A -0.123838716" rpy="0 0 0" />
+			<origin xyz="0 -0.2646172 -0.123838716" rpy="0 0 0" />
 			<geometry>
 				<mesh filename="file://$(arg modelDirectory)/materials/textures/left_wheel.dae"/>
 			</geometry>
@@ -222,30 +221,36 @@
 
 	<joint  name="base_to_footprint_joint" type="fixed">
     	  <origin xyz="0 0 0" rpy="0 0 0" />
-    	  <parent link="base_footprint"/>
-          <child link="base_link"/>
+    	  <parent link="base_link"/>
+          <child link="base_footprint"/>
 	</joint>
 
-	<joint  name="GPS_Receiver_joint" type="fixed">
+	<joint  name="piksi_antenna_joint" type="fixed">
     	  <origin xyz="0.0025924256 -0.170120818 0.759278136" rpy="0 0 0" />
     	  <parent link="base_link"/>
-          <child link="GPS_Receiver"/>
+          <child link="piksi_antenna"/>
 	</joint>
+
 	<joint  name="piksi_imu" type="fixed">
-    	  <origin xyz="-.0028890976 .1192403 .7526036923" rpy="0 0 0" />
+    	  <origin xyz="-.0028890976 .1192403 .7526036923" rpy="3.14159265359 0 0" />
     	  <parent link="base_link"/>
           <child link="piksi_imu"/>
 	</joint>
-	<joint  name="os1/os1_imu_joint" type="fixed">
-    	  <origin xyz="0 0 0.905932656" rpy="0 0 0" />
+
+	<joint  name="os1/os1_sensor_joint" type="fixed">
+    	  <origin xyz="0 0 0.905932656" rpy="3.14159265359 3.14159265359 -1.57079632679" />
     	  <parent link="base_link"/>
-          <child link="os1/os1_imu"/>
+          <child link="os1/os1_sensor"/>
 	</joint>
-	<joint  name="Front_Camera_joint" type="fixed">
+
+	<joint  name="webcam_joint" type="fixed">
     	  <origin xyz="0.152597358 0 0.77890116" rpy="0 0 0" />
     	  <parent link="base_link"/>
-          <child link="Front_Camera"/>
+          <child link="webcam"/>
 	</joint>
+
+
+	<!-- WHEEL JOINTS -->
 
 
 	<joint  name="left_big_wheel_joint" type="continuous">
@@ -264,8 +269,6 @@
         <limit effort="40" velocity="6.7056" />
 	</joint>
 
-
-
 	<joint  name="front_left_caster_joint" type="continuous">
 		<origin xyz="0.39505128 0.199152764 0.150970234" rpy="0 0 0" />
 		<axis xyz="0 0 1"/>
@@ -281,7 +284,6 @@
         <child link="front_right_caster"/>
         <limit effort="40" velocity="6.7056"/>
 	</joint>
-
 
 	<joint  name="back_left_caster_joint" type="continuous">
 		<origin xyz="-0.346898976 0.26420826 0.150970234" rpy="0 0 0" />

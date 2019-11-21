@@ -61,7 +61,7 @@ publish_acceleration: false
 #     3b. MAKE SURE something else is generating the odom->base_link transform. Note that this can even be another state
 #         estimation node from robot_localization! However, that instance should *not* fuse the global data.
 map_frame: map              # Defaults to "map" if unspecified
-odom_frame: odom            # Defaults to "odom" if unspecified
+odom_frame: odom           # Defaults to "odom" if unspecified
 base_link_frame: base_link  # Defaults to "base_link" if unspecified
 world_frame: odom           # Defaults to the value of odom_frame if unspecified
 
@@ -79,10 +79,10 @@ odom0: encoders/odom
 # do not provide some of the state variables estimated by the filter. For example, a TwistWithCovarianceStamped message
 # has no pose information, so the first six values would be meaningless in that case. Each vector defaults to all false
 # if unspecified, effectively making this parameter required for each sensor.
-odom0_config: [true,  true,  false,
+odom0_config: [true, true, false,
                false, false, true,
                false, false, false,
-               false, false, true,
+               false, false, false,
                false, false, false]
 
 # If you have high-frequency data or are running with a low frequency parameter value, then you may want to increase
@@ -108,48 +108,35 @@ odom0_differential: false
 # for all future measurements. While you can achieve the same effect with the differential paremeter, the key
 # difference is that the relative parameter doesn't cause the measurement to be converted to a velocity before
 # integrating it. If you simply want your measurements to start at 0 for a given sensor, set this to true.
-odom0_relative: false
+odom0_relative: true
 
-# [ADVANCED] If your data is subject to outliers, use these threshold settings, expressed as Mahalanobis distances, to
-# control how far away from the current vehicle state a sensor measurement is permitted to be. Each defaults to
-# numeric_limits<double>::max() if unspecified. It is strongly recommended that these parameters be removed if not
-# required. Data is specified at the level of pose and twist variables, rather than for each variable in isolation.
-# For messages that have both pose and twist data, the parameter specifies to which part of the message we are applying
-# the thresholds.
-odom0_pose_rejection_threshold: 5
-odom0_twist_rejection_threshold: 1
 
 imu0: os1/imu_pose
-imu0_config: [false, false, false,
-              true,  true,  true,
-              true, true, false,
+# values is x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az. Note that not some message types
+imu0_config: [false,  false,  false,
               false,  false,  false,
-              true,  true,  false]
+              false,  false,  false,
+              false,  false,  true, # true 3
+              true,  false,  false] # true 1
 imu0_nodelay: false
 imu0_differential: false
 imu0_relative: true
 imu0_queue_size: 5
-imu0_pose_rejection_threshold: 0.8                 # Note the difference in parameter names
-imu0_twist_rejection_threshold: 0.8                #
-imu0_linear_acceleration_rejection_threshold: 0.8  #
 
 # [ADVANCED] Some IMUs automatically remove acceleration due to gravity, and others don't. If yours doesn't, please set
 # this to true, and *make sure* your data conforms to REP-103, specifically, that the data is in ENU frame.
 imu0_remove_gravitational_acceleration: true
 
 imu1: piksi/imu_pose
-imu1_config: [false, false, false,
-              true,  true,  true,
-              true, true, false,
+imu1_config: [false,  false,  false,
               false,  false,  false,
-              true,  true,  false]
+              false,  false,  false,
+              false,  false,  true,
+              true,  false,  false]
 imu1_nodelay: false
 imu1_differential: false
 imu1_relative: true
 imu1_queue_size: 5
-imu1_pose_rejection_threshold: 0.8                 # Note the difference in parameter names
-imu1_twist_rejection_threshold: 0.8                #
-imu1_linear_acceleration_rejection_threshold: 0.8  #
 
 # [ADVANCED] Some IMUs automatically remove acceleration due to gravity, and others don't. If yours doesn't, please set
 # this to true, and *make sure* your data conforms to REP-103, specifically, that the data is in ENU frame.

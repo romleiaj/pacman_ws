@@ -13,14 +13,17 @@ This launch file provides an example of how to work with GPS data using robot_lo
 
   <rosparam command="load" file="$(find pacman_config)/dual_ekf_navsat.yaml" />
 
-  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_odom" clear_params="true"/>
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_odom" clear_params="true">
+    <remap from="odometry/filtered" to="/odom"/>
+  </node>
 
   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_map" clear_params="true">
-    <remap from="odometry/filtered" to="odometry/filtered_map"/>
+    <remap from="odometry/filtered" to="/odom_map"/>
   </node>
 
   <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform" clear_params="true">
-    <remap from="odometry/filtered" to="odometry/filtered_map"/>
+    <remap from="odometry/filtered" to="/odom"/>
+    <remap from="/gps/fix" to="/piksi/navsatfix_best_fix"/>
   </node>
 
 </launch>

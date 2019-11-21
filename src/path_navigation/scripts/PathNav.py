@@ -2,9 +2,8 @@
 import rospy
 from geometry_msgs.msg  import Twist, Vector3
 from nav_msgs.msg import Odometry
-from math import atan2, sqrt, pi
+from math import atan2, sqrt, pi, cos, copysign
 from pacman_msgs.msg import PointArray
-from PID import PID
 
 import numpy as np
 import tf
@@ -22,13 +21,13 @@ class PathNavigation():
         self.point_subscriber = rospy.Subscriber("/path_points", PointArray, 
                 self.point_queue_callback)
         self.queue = []
-        self.rate = rospy.Rate(50)
-        #self.ang_vel = PID()
+        self.rate = rospy.Rate(30)
+        self.stopped = True
         
         # User specified tolerance and gains
         self.distance_tolerance = 0.1
-        self.lin_vel = .1 #.2 worked
-        self.Kp_w = .1
+        self.lin_vel = 0.1 #.2 worked
+        self.Kp_w = .4
 
     #Callback function implementing the odom value received
     def odom_callback(self, data):
@@ -39,20 +38,20 @@ class PathNavigation():
         dimension = np.asarray(array).shape
         i = 0
         distance_to = 0
-        distnace_to_prev = 0
+        distance_to_prev = 0
         i_valid = False
 
         if dimension[0] > 1: # Point Filtering
             for point in array:
                 #self.queue.insert(0, point)
                 distance_to_prev = distance_to
-                distance_to = self.get_distance(point[0], point[1])
+                distance_to = self.get_distance(point.x, point.y)
                 if i >= 2: # valid checking
-                    if (distance_to - distance_to_prev < 0) and (distnace_to <= self.distance_tolerance):
+                    if (distance_to - distance_to_prev < 0) and (distance_to <= self.distance_tolerance):
                         # closest to robot position
                         i_valid = True
                         break
-                    if i > floor(len(array)/2):
+                    if i > int(len(array)/2.):
                         rospy.logerr("there's a problem in point_queue_callback: line.56")
                         break # # If i is larger than half of the array segmentation can't keep up with speed
                 i += 1
@@ -63,13 +62,11 @@ class PathNavigation():
             filtered_points = array            
         for point in filtered_points:
             self.queue.insert(0, point)
-            self.in_op = True
         print("Insert Q Now: " + str(len(self.queue)))
         
     def get_next_point(self):
         if len(self.queue) < 1: # No points in queue
             print("no points in queue")
-            self.in_op = False
             raise Queue.Empty
         else:
             print("Popped Q Now: " + str(len(self.queue)))
@@ -82,49 +79,66 @@ class PathNavigation():
         return distance
 
     def move2point(self):
-        pose = self.odom.pose.pose.position
-
         try:
             goal_point = self.get_next_point()
         except Queue.Empty:
             return
         #goal_point = np.asarray(goal_point) #I dont think this is needed
-        goal_pose_x = goal_point.x # x value
-        goal_pose_y = goal_point.y # y value
         vel_msg = Twist()
-        
-        while self.get_distance(goal_pose_x, goal_pose_y) >= self.distance_tolerance:
+        initial_distance = self.get_distance(goal_point.x, goal_point.y)
+        while self.get_distance(goal_point.x, goal_point.y) >= self.distance_tolerance\
+                and not rospy.is_shutdown():
             orient = self.odom.pose.pose.orientation
+            pose = self.odom.pose.pose.position
             [roll, pitch, yaw] = tf.transformations.euler_from_quaternion([orient.x, orient.y, orient.z, orient.w])
-            theta = atan2(goal_pose_y - pose.y, goal_pose_x - pose.x)
+            theta = atan2(goal_point.y - pose.y, goal_point.x - pose.x)
             
             #Porportional Controller
             
-            #if self.in_op:
-            #linear velocity in the x-axis:
             turn_angle = pi/2
             turn_factor = (turn_angle - abs(theta - yaw)) / turn_angle
+            turn_angle = 1
+            turn_factor = ((turn_angle - abs(cos(theta) - 
+                    cos(yaw))) / turn_angle)
             if turn_factor < 0:
+                rospy.logwarn("No forward velocity")
                 turn_factor = 0
-            vel_msg.linear.x = self.lin_vel * turn_factor
-                #print(vel_msg.linear.x)
+            elif turn_factor > 1:
+                turn_factor = 1
+
+            distance_factor = (initial_distance - self.get_distance(goal_point.x, goal_point.y)) / initial_distance # More zero in the begining and becomes 1 towards end
+            if distance_factor < 0.1:
+                distance_factor = 0.1
+            elif distance_factor > 1:
+                distance_factor = 1
+            
+            if self.stopped and len(self.queue) > 0:
+                vel_msg.linear.x = self.lin_vel * turn_factor * distance_factor
+            elif not self.stopped and len(self.queue) == 0:
+                vel_msg.linear.x = self.lin_vel * turn_factor * (1-distance_factor)
+            else:
+                vel_msg.linear.x = self.lin_vel * turn_factor
             #angular velocity in the z-axis: Add Differential
-            vel_msg.angular.z = self.Kp_w * (theta - yaw)
-            #else: # Last element of queue
-                #vel_msg.linear.x = 0
-                #vel_msg.angular.z =0
-                #vel_msg.linear.x = lin_vel * sqrt(pow((goal_pose_x - pose.x), 2) + pow((goal_pose_y - pose.y), 2))
+            delta_theta = theta - yaw
+            if delta_theta > pi:
+                delta_theta = (delta_theta - 2*pi)
+            elif delta_theta < -pi:
+                delta_theta = (delta_theta + 2*pi)
+            vel_msg.angular.z = (self.Kp_w * sqrt(abs(delta_theta)) * 
+                copysign(1, delta_theta))
                 
             #Publishing our vel_msg
             self.velocity_publisher.publish(vel_msg)
             self.rate.sleep()
         
         if len(self.queue) == 0:
-            #self.in_op = False
+            self.stopped = True
             vel_msg.linear.x = 0
             vel_msg.angular.z = 0
             self.velocity_publisher.publish(vel_msg)
-
+        else:
+            self.stopped = False
+            
 if __name__ == '__main__':
     try:
         #Testing our function

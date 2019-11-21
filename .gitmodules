@@ -25,3 +25,6 @@
 [submodule "src/twist_mux"]
 	path = src/twist_mux
 	url = https://github.com/ros-teleop/twist_mux.git
+[submodule "src/dependencies/catkin_simple"]
+	path = src/dependencies/catkin_simple
+	url = https://github.com/catkin/catkin_simple
