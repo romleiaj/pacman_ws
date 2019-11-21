@@ -1,0 +1,8 @@
+<launch>
+    <node pkg="utility_scripts" type="path_planning_node.py" name="path_planning" output="screen">
+        <param name="homography_yaml" value="$(find utility_scripts)/scripts/homography.yaml"/>
+        <param name="img_in" value="/webcam/image_segmented"/>
+        <param name="path_out" value="/path_points"/>
+        <param name="odom_in" value="/odom"/>
+    </node>
+</launch>
