@@ -25,5 +25,9 @@ sleep 1
 tmux new-window -t $SESSION:4 -n "EncoderTF"
 tmux send-keys -t $SESSION:4 "source $DIR/14_encoder_tf.sh" C-m
 
+sleep 1
+tmux new-window -t $SESSION:4 -n "TwistMux"
+tmux send-keys -t $SESSION:4 "source $DIR/18_twist_mux.sh" C-m
+
 # Keep it alive so we can kill it through supervisor
 sleep infinity
