@@ -9,6 +9,8 @@ import numpy as np
 import tf
 import pdb
 import Queue
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 class PathNavigation():
@@ -23,10 +25,12 @@ class PathNavigation():
         self.queue = []
         self.rate = rospy.Rate(30)
         self.stopped = True
-        
+        self.weighted_path = None
+        self.fig = plt.figure() 
+        self.ax = self.fig.add_subplot(1, 1, 1)
         # User specified tolerance and gains
-        self.distance_tolerance = 0.1
-        self.lin_vel = 0.1 #.2 worked
+        self.distance_tolerance = 2
+        self.lin_vel = 0.2 #.2 worked
         self.Kp_w = .4
 
     #Callback function implementing the odom value received
@@ -35,33 +39,60 @@ class PathNavigation():
         
     def point_queue_callback(self, msg): #FIFO Queue
         array = msg.points
-        dimension = np.asarray(array).shape
-        i = 0
+        np_pts = np.array([[pt.x, pt.y, pt.z] for pt in array]) # convert to list
+        print(np_pts)
+        #self.ax.plot(np_pts[:, 0], np_pts[:, 1], 'r--')
+        if self.weighted_path is None or len(self.weighted_path) == 1:
+            self.weighted_path = np_pts
+        else:
+            for j, point in enumerate(np_pts):
+                dist_2 = np.sum((self.weighted_path - point)**2, axis=1)
+                closeI = np.argmin(dist_2)
+                x0 = self.weighted_path[closeI][0]
+                y0 = self.weighted_path[closeI][1]
+                x1 = point[0]
+                y1 = point[1]
+                new_pt = (x0 + (x1 - x0)/2., y0 + (y1 - y0)/2., point[2])
+                np_pts[j] = new_pt
+        #self.ax.plot(np_pts[:, 0], np_pts[:, 1], 'g--')
+        #self.ax.axis('equal')
+        #self.fig.savefig("/home/grobots/figure.png")
+        #print("MADE IT")
+        #return
+            
+        dimension = self.weighted_path.shape
         distance_to = 0
         distance_to_prev = 0
+        mid_pt = int(len(self.weighted_path)/2.)
         i_valid = False
 
         if dimension[0] > 1: # Point Filtering
-            for point in array:
+            for i, point in enumerate(self.weighted_path[::-1]):
                 #self.queue.insert(0, point)
                 distance_to_prev = distance_to
-                distance_to = self.get_distance(point.x, point.y)
-                if i >= 2: # valid checking
+                distance_to = self.get_distance(point[0], point[1])
+                rospy.loginfo(distance_to)
+                if i >= mid_pt: # valid checking
                     if (distance_to - distance_to_prev < 0) and (distance_to <= self.distance_tolerance):
                         # closest to robot position
                         i_valid = True
                         break
-                    if i > int(len(array)/2.):
-                        rospy.logerr("there's a problem in point_queue_callback: line.56")
-                        break # # If i is larger than half of the array segmentation can't keep up with speed
-                i += 1
-            index_offset = 0 # Added to account for latency (will be affected by point density in line)
-            filtered_points = array[i+index_offset:]
-            print("Split at: " + str(i) + "/" + str(len(array)))
+                    # If i is larger than half of the array segmentation can't keep up with speed
+            index_offset = 0 
+            # Added to account for latency (will be affected by point density in line)
+            index = len(self.weighted_path) - i
+            filtered_points = self.weighted_path[index+index_offset:]
+            print("Split at: " + str(i) + "/" + str(len(self.weighted_path)))
         else:
-            filtered_points = array            
-        for point in filtered_points:
-            self.queue.insert(0, point)
+            filtered_points = self.weighted_path            
+            i_valid = True
+        if i_valid is True:
+            self.queue = [] #TODO: Clear queue
+            for point in filtered_points:
+                self.queue.insert(0, point)
+        else:
+            self.queue = [] #TODO: Clear queue
+            rospy.logerr("No valid points were found within tolerance of segmentation fps.")
         print("Insert Q Now: " + str(len(self.queue)))
         
     def get_next_point(self):
@@ -81,17 +112,20 @@ class PathNavigation():
     def move2point(self):
         try:
             goal_point = self.get_next_point()
+            rospy.logwarn(goal_point)
         except Queue.Empty:
             return
         #goal_point = np.asarray(goal_point) #I dont think this is needed
         vel_msg = Twist()
-        initial_distance = self.get_distance(goal_point.x, goal_point.y)
-        while self.get_distance(goal_point.x, goal_point.y) >= self.distance_tolerance\
+        goal_x = goal_point[0]
+        goal_y = goal_point[1]
+        initial_distance = self.get_distance(goal_x, goal_y)
+        while self.get_distance(goal_x, goal_y) >= self.distance_tolerance\
                 and not rospy.is_shutdown():
             orient = self.odom.pose.pose.orientation
             pose = self.odom.pose.pose.position
             [roll, pitch, yaw] = tf.transformations.euler_from_quaternion([orient.x, orient.y, orient.z, orient.w])
-            theta = atan2(goal_point.y - pose.y, goal_point.x - pose.x)
+            theta = atan2(goal_y - pose.y, goal_x - pose.x)
             
             #Porportional Controller
             
@@ -103,21 +137,27 @@ class PathNavigation():
             if turn_factor < 0:
                 rospy.logwarn("No forward velocity")
                 turn_factor = 0
-            elif turn_factor > 1:
-                turn_factor = 1
 
-            distance_factor = (initial_distance - self.get_distance(goal_point.x, goal_point.y)) / initial_distance # More zero in the begining and becomes 1 towards end
+            distance_factor = (initial_distance - self.get_distance(goal_x, goal_y)) / initial_distance # More zero in the begining and becomes 1 towards end
             if distance_factor < 0.1:
                 distance_factor = 0.1
             elif distance_factor > 1:
                 distance_factor = 1
-            
+            vel = 0
             if self.stopped and len(self.queue) > 0:
-                vel_msg.linear.x = self.lin_vel * turn_factor * distance_factor
+                vel = self.lin_vel * turn_factor * distance_factor
+                print("Ramping up.")
+                self.stopped = False
             elif not self.stopped and len(self.queue) == 0:
-                vel_msg.linear.x = self.lin_vel * turn_factor * (1-distance_factor)
+                vel = self.lin_vel * turn_factor * (1-distance_factor)
             else:
-                vel_msg.linear.x = self.lin_vel * turn_factor
+                vel = self.lin_vel * turn_factor
+
+            if vel > self.lin_vel:
+                vel = self.lin_vel
+            elif vel < -self.lin_vel:
+                vel = -self.lin_vel
+            vel_msg.linear.x = vel
             #angular velocity in the z-axis: Add Differential
             delta_theta = theta - yaw
             if delta_theta > pi:

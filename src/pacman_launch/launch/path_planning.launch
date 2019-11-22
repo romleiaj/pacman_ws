@@ -1,0 +1,8 @@
+<launch>
+    <node pkg="path_mapping" type="path_planning_node.py" name="path_planning" output="screen">
+        <param name="homography_yaml" value="$(find pacman_config)/homography.yaml"/>
+        <param name="img_in" value="/webcam/image_segmented"/>
+        <param name="path_out" value="/path_points"/>
+        <param name="odom_in" value="/odom"/>
+    </node>
+</launch>

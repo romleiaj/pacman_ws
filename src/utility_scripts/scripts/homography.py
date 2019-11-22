@@ -16,7 +16,8 @@ def compute_homography(
     tile_size,
     output_size=(
         100,
-        100)):
+        100),
+    num_ticks=20):
     f, (ax1, ax2) = plt.subplots(1, 2)
     # pdb.set_trace()
     # note that matplotlib only accepts PIL images natively
@@ -27,8 +28,8 @@ def compute_homography(
 
     x_ticks = np.arange(-1 * output_size[0] / 2.0,
                         output_size[0] / 2.0 + 1,
-                        output_size[0] / 10.0)
-    y_ticks = np.arange(0, output_size[1] + 1, output_size[1] / 10.0)
+                        output_size[0] / float(num_ticks))
+    y_ticks = np.arange(0, output_size[1] + 1, output_size[1] / float(num_ticks))
 
     ax2.set_xticks(x_ticks)
     ax2.set_yticks(y_ticks)
