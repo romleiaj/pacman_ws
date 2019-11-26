@@ -40,8 +40,7 @@ class PathNavigation():
     def point_queue_callback(self, msg): #FIFO Queue
         array = msg.points
         np_pts = np.array([[pt.x, pt.y, pt.z] for pt in array]) # convert to list
-        print(np_pts)
-        #self.ax.plot(np_pts[:, 0], np_pts[:, 1], 'r--')
+        self.ax.plot(np_pts[:, 0], np_pts[:, 1], 'r--')
         if self.weighted_path is None or len(self.weighted_path) == 1:
             self.weighted_path = np_pts
         else:
@@ -54,9 +53,10 @@ class PathNavigation():
                 y1 = point[1]
                 new_pt = (x0 + (x1 - x0)/2., y0 + (y1 - y0)/2., point[2])
                 np_pts[j] = new_pt
-        #self.ax.plot(np_pts[:, 0], np_pts[:, 1], 'g--')
-        #self.ax.axis('equal')
-        #self.fig.savefig("/home/grobots/figure.png")
+            self.weighted_path = np_pts
+        self.ax.plot(np_pts[:, 0], np_pts[:, 1], 'g--')
+        self.ax.axis('equal')
+        self.fig.savefig("/home/grobots/figure.png")
         #print("MADE IT")
         #return
             
@@ -105,6 +105,7 @@ class PathNavigation():
         
     def get_distance(self, goal_x, goal_y):
         pose = self.odom.pose.pose.position
+        #rospy.logerr("(%s, %s) | (%s, %s)" % (goal_x, goal_y, pose.x, pose.y))
         distance = sqrt(pow((goal_x - pose.x), 2) + pow((goal_y - pose.y), 2))
         #print("Distance: " + str(distance))
         return distance

@@ -14,8 +14,8 @@ tmux new-window -t $SESSION:1 -n "PathPlanning"
 tmux send-keys -t $SESSION:1 "source $DIR/16_path_planning.sh" C-m
 
 sleep 1
-tmux new-window -t $SESSION:1 -n "PathPNavigation"
-tmux send-keys -t $SESSION:1 "source $DIR/18_path_navigation.sh"
+tmux new-window -t $SESSION:2 -n "PathNavigation"
+tmux send-keys -t $SESSION:2 "source $DIR/18_path_navigation.sh"
 
 # Keep it alive so we can kill it through supervisor
 sleep infinity

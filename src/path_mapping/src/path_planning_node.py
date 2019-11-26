@@ -72,7 +72,7 @@ class PathPlanning():
         x = 1
         y = 0
         h,w = img.shape
-        binarized = (img > 150).astype(np.uint8)
+        binarized = (img > 70).astype(np.uint8)
         pad = np.zeros((34, w), dtype=np.uint8)
         pad[:, int(3*w/7):int(4*w/7)] = np.ones((1, int(4*w/7) - int(3*w/7)))
         row_extend = np.append(binarized[:-int(h/20.), :], pad, axis=0)
@@ -84,7 +84,7 @@ class PathPlanning():
         mask = np.zeros_like(dilation)
         # TODO figure out if necessary
         mask = np.pad(mask, (1, 1), 'constant')
-        seedPoint = (int(new_w / 2.), new_h - 1)
+        seedPoint = (int(new_w / 2.), new_h - 35)
         dilation[h:,int(3*w/7):int(4*w/7)] = np.ones((1, int(4*w/7) - int(3*w/7)))# * 255
         flooded = cv2.floodFill(dilation, mask, seedPoint, 125)
         flooded = (flooded[1] == 125).astype(np.uint8)# * 255
@@ -117,17 +117,17 @@ class PathPlanning():
         output[:, :, 1] = ds_image
 
         # Publish estimate path
-        cv2.circle(output, (w_2, h-1), 1, (0, 0, 255), thickness=1)
-        cv2.circle(output, (x_sink, y_sink), 1, (255, 0, 0), thickness=1)
-        path, cost = skimage.graph.route_through_array(costs, start=(h-1, w_2), 
+        cv2.circle(output, (w_2, h-20), 1, (0, 0, 255), thickness=3)
+        cv2.circle(output, (x_sink, y_sink), 1, (255, 0, 0), thickness=3)
+        path, cost = skimage.graph.route_through_array(costs, start=(h-20, w_2), 
                 end=(y_sink, x_sink), fully_connected=True)
         path = np.array(path)
-        if len(path) > 5:
+        if len(path) > 40: # Only smooth longer paths
             #path.T[1] = signal.savgol_filter(path.T[1], 11, 3)
             #path.T[0] = signal.savgol_filter(path.T[0], 11, 3)
             b, a = signal.butter(3, 0.05)
-            smoothed_path = signal.filtfilt(b, a, path.T[1])
-            path.T[1] = [int(dest) for dest in smoothed_path]
+            smoothed_path = signal.filtfilt(b, a, path.T[1][20:])
+            path.T[1][20:] = [int(dest) for dest in smoothed_path]
             #path.T[1] = signal.medfilt(path.T[1], kernel_size=5)
         
         #contours = cv2.findContours(ds_image, cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)[-2]
@@ -139,17 +139,18 @@ class PathPlanning():
             img_msg = self.bridge.cv2_to_imgmsg(output, encoding="rgb8")
         except CvBridgeError as e:
             rospy.logerr(e)
+        rospy.logerr(self.heading)
         self.path_img_pub.publish(img_msg)
         
         tx = self.cam_offset
-        scaled_pts = [(((w_2 - i) * self.toMeters), ((h - j) * self.toMeters + tx), 
-            0.) for j, i in path]
+        scaled_pts = [(((w_2 - i) * self.toMeters), ((h - j) * self.toMeters) + tx) 
+                for j, i in path]
         
-        theta = self.heading
+        theta = -self.heading
         # Funky coord system with -y being left and +x forward
         # Flipping axis
-        R = np.array([[np.cos(theta), -np.sin(theta), 0], [np.sin(theta), 
-            np.cos(theta), 0], [0, 0, 1]])
+        R = np.array([[np.cos(theta), -np.sin(theta)], [np.sin(theta), 
+            np.cos(theta)]])
         # Rotation happening in meter space
         rotated_list = R.dot(np.array(scaled_pts).T)
         pt_array = PointArray()
@@ -157,7 +158,7 @@ class PathPlanning():
         for e, n in enumerate(rotated_list[x]):
             pt = Point()
             pt.x = n + self.pose.x
-            pt.y = rotated_list[y][e] - self.pose.y
+            pt.y = rotated_list[y][e] + self.pose.y
             pt_list.append(pt)
         
         pt_array.points = pt_list
