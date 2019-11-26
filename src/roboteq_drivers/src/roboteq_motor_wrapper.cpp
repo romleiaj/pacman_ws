@@ -36,6 +36,7 @@ RoboteqMotorWrapper::RoboteqMotorWrapper() : nh(""), priv_nh("~") {
 	}
     	encoderR_pub = nh.advertise<std_msgs::Int32>(encoderR_pub_topic_name, 10);
 	encoderL_pub = nh.advertise<std_msgs::Int32>(encoderL_pub_topic_name, 10);
+	voltage_pub = nh.advertise<std_msgs::Int32>("battery_voltage", 10);
 	estop_sub = nh.subscribe("/joy", 10, 
 	    &RoboteqMotorWrapper::onEStop, this);
 	while (motor_command_sub.getNumPublishers() < 1){
@@ -87,6 +88,18 @@ void RoboteqMotorWrapper::readLCallback(const ros::TimerEvent&) {
     encoderL_pub.publish(msg);
 }
 
+void RoboteqMotorWrapper::voltageCallback(const ros::TimerEvent&) {
+    int counts;
+    int status = device.GetValue(_V, 2, counts);
+    if (status != RQ_SUCCESS) {
+        ROS_ERROR_STREAM("GetValue(_V, " << 2 <<", " <<") failed: " << status);
+    }
+    sleepms(5);
+    std_msgs::Int32 msg;
+    msg.data = counts;
+    voltage_pub.publish(msg);
+}
+
 void RoboteqMotorWrapper::readRCallback(const ros::TimerEvent&) {
     int counts;
     int status = device.GetValue(_ABCNTR, 1, counts);
@@ -133,6 +146,10 @@ int main(int argc, char** argv) {
     ros::Timer write_timer = nh.createTimer(
         ros::Duration(motor_wrapper.getWritePeriod()), 
         &RoboteqMotorWrapper::writeCallback, &motor_wrapper);
+    
+    ros::Timer read_voltage = nh.createTimer(
+        ros::Duration(1.0), 
+        &RoboteqMotorWrapper::voltageCallback, &motor_wrapper);
 
     ros::Timer readR_timer = nh.createTimer(
         ros::Duration(motor_wrapper.getReadPeriod()), 

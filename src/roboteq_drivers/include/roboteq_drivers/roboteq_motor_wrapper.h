@@ -18,9 +18,9 @@ class RoboteqMotorWrapper {
         std::string USB_DEVICE_PARAMETER_NAME = "usb_device";
         std::string WRITE_PERIOD_PARAMETER_NAME = "write_period";
         std::string READ_PERIOD_PARAMETER_NAME = "read_period";
-	std::string COMMAND_SUB_TOPIC_PARAMETER_NAME = "command_topic_name";
-	std::string ENCODERR_PUB_TOPIC_PARAMETER_NAME = "encoderR_topic_name";
-	std::string ENCODERL_PUB_TOPIC_PARAMETER_NAME = "encoderL_topic_name";
+        std::string COMMAND_SUB_TOPIC_PARAMETER_NAME = "command_topic_name";
+        std::string ENCODERR_PUB_TOPIC_PARAMETER_NAME = "encoderR_topic_name";
+        std::string ENCODERL_PUB_TOPIC_PARAMETER_NAME = "encoderL_topic_name";
     
         ros::NodeHandle nh;
         ros::NodeHandle priv_nh;
@@ -28,6 +28,7 @@ class RoboteqMotorWrapper {
         ros::Subscriber estop_sub;
         ros::Publisher  encoderR_pub;
         ros::Publisher  encoderL_pub;
+        ros::Publisher  voltage_pub;
         
         RoboteqDevice device;
         
@@ -54,6 +55,7 @@ class RoboteqMotorWrapper {
         void writeCallback(const ros::TimerEvent&);
         void readRCallback(const ros::TimerEvent&);
         void readLCallback(const ros::TimerEvent&);
+        void voltageCallback(const ros::TimerEvent&);
         
 };
 

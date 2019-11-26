@@ -8,10 +8,11 @@
 topics:
 -
   name    : manual_controller
-  topic   : joy
+  topic   : joy/cmd_vel
   timeout : 0.5
   priority: 255
 -
   name    : autonomous
-  topic   : cmd_vel_topic
-  timeout : 1
+  topic   : autonomy/cmd_vel
+  timeout : 0.5
+  priority: 1

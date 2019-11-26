@@ -5,8 +5,8 @@
     <param name="base_width" value="0.53816" />
     <param name="encoder_min" value="-2147483648" />
     <param name="encoder_max" value="2147483647" />
-    <param name="base_frame_id" value="base_link" />
-    <param name="odom_frame_id" value="encoders" />
+    <param name="base_frame_id" value="encoders" />
+    <param name="odom_frame_id" value="odom" />
     <param name="wheel_low_wrap" value="-2147483648" />
     <param name="wheel_high_wrap" value="2147483647" />
   </node>

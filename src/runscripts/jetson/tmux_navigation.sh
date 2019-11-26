@@ -21,13 +21,13 @@ sleep 1
 tmux new-window -t $SESSION:3 -n "EncoderOdom"
 tmux send-keys -t $SESSION:3 "source $DIR/10_difftf.sh" C-m
 
-sleep 1
-tmux new-window -t $SESSION:4 -n "EncoderTF"
-tmux send-keys -t $SESSION:4 "source $DIR/14_encoder_tf.sh" C-m
+#sleep 1
+#tmux new-window -t $SESSION:4 -n "EncoderTF"
+#tmux send-keys -t $SESSION:4 "source $DIR/14_encoder_tf.sh" C-m
 
 sleep 1
-tmux new-window -t $SESSION:4 -n "TwistMux"
-tmux send-keys -t $SESSION:4 "source $DIR/18_twist_mux.sh" C-m
+tmux new-window -t $SESSION:5 -n "TwistMux"
+tmux send-keys -t $SESSION:5 "source $DIR/17_twist_mux.sh" C-m
 
 # Keep it alive so we can kill it through supervisor
 sleep infinity
