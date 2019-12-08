@@ -59,7 +59,7 @@
        </font>
       </property>
      </widget>
-     <widget class="QOpenGLWidget" name="openGLWidget_5">
+     <widget class="QLabel" name="openGLWidget_5">
       <property name="geometry">
        <rect>
         <x>0</x>
