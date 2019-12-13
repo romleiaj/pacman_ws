@@ -1,0 +1,5 @@
+<launch>
+	<node pkg="gui" name="GUI_Node" type="rosController.py" output="screen">
+	     <param name="resourceFilePath" value="$(find pacman_config)" type="string"/>
+	</node>
+</launch>

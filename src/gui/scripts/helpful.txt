@@ -1,0 +1,16 @@
+designer -qt5
+pyuic5 -x [input].ui -o [output].py
+
+from PyQt5 import QtWidgets, uic
+import sys
+
+class MyWindow(QtWidgets.QMainWindow):
+    def init(self):
+        super(MyWindow, self).init()
+        uic.loadUi('test.ui', self)
+        self.show()
+
+if name == 'main':
+    app = QtWidgets.QApplication(sys.argv)
+    window = MyWindow()
+    sys.exit(app.exec_())
