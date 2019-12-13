@@ -29,8 +29,8 @@ class PathNavigation():
         self.fig = plt.figure() 
         self.ax = self.fig.add_subplot(1, 1, 1)
         # User specified tolerance and gains
-        self.distance_tolerance = 2
-        self.lin_vel = 0.2 #.2 worked
+        self.distance_tolerance = 0.1
+        self.lin_vel = 0.3 #.2 worked
         self.Kp_w = .4
 
     #Callback function implementing the odom value received
@@ -57,6 +57,7 @@ class PathNavigation():
         self.ax.plot(np_pts[:, 0], np_pts[:, 1], 'g--')
         self.ax.axis('equal')
         self.fig.savefig("/home/grobots/figure.png")
+        self.weighted_path = np.array([[pt.x, pt.y, pt.z] for pt in array]) # convert to list
         #print("MADE IT")
         #return
             

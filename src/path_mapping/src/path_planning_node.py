@@ -72,7 +72,7 @@ class PathPlanning():
         x = 1
         y = 0
         h,w = img.shape
-        binarized = (img > 70).astype(np.uint8)
+        binarized = (img > 90).astype(np.uint8)
         pad = np.zeros((34, w), dtype=np.uint8)
         pad[:, int(3*w/7):int(4*w/7)] = np.ones((1, int(4*w/7) - int(3*w/7)))
         row_extend = np.append(binarized[:-int(h/20.), :], pad, axis=0)
@@ -84,7 +84,7 @@ class PathPlanning():
         mask = np.zeros_like(dilation)
         # TODO figure out if necessary
         mask = np.pad(mask, (1, 1), 'constant')
-        seedPoint = (int(new_w / 2.), new_h - 35)
+        seedPoint = (int(new_w / 2.), new_h - 30)
         dilation[h:,int(3*w/7):int(4*w/7)] = np.ones((1, int(4*w/7) - int(3*w/7)))# * 255
         flooded = cv2.floodFill(dilation, mask, seedPoint, 125)
         flooded = (flooded[1] == 125).astype(np.uint8)# * 255
@@ -117,11 +117,14 @@ class PathPlanning():
         output[:, :, 1] = ds_image
 
         # Publish estimate path
-        cv2.circle(output, (w_2, h-20), 1, (0, 0, 255), thickness=3)
+        cv2.circle(output, (w_2, h-1), 1, (0, 0, 255), thickness=3)
         cv2.circle(output, (x_sink, y_sink), 1, (255, 0, 0), thickness=3)
-        path, cost = skimage.graph.route_through_array(costs, start=(h-20, w_2), 
+        path, cost = skimage.graph.route_through_array(costs, start=(h-1, w_2), 
                 end=(y_sink, x_sink), fully_connected=True)
         path = np.array(path)
+        print(path[30])
+        cv2.circle(output, (path[30][x], path[30][y]), 1, (0, 0, 255), thickness=3)
+        path = [path[30]]
         if len(path) > 40: # Only smooth longer paths
             #path.T[1] = signal.savgol_filter(path.T[1], 11, 3)
             #path.T[0] = signal.savgol_filter(path.T[0], 11, 3)
