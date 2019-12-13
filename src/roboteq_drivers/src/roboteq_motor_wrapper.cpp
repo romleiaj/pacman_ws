@@ -89,14 +89,18 @@ void RoboteqMotorWrapper::readLCallback(const ros::TimerEvent&) {
 }
 
 void RoboteqMotorWrapper::voltageCallback(const ros::TimerEvent&) {
-    int counts;
-    int status = device.GetValue(_V, 2, counts);
+    int mvolts;
+    int status = device.GetValue(_V, 2, mvolts);
     if (status != RQ_SUCCESS) {
         ROS_ERROR_STREAM("GetValue(_V, " << 2 <<", " <<") failed: " << status);
     }
+    if (mvolts < 220) {
+    	ROS_ERROR_STREAM("Voltage is too low! Killing motors.");
+	exit(0);
+    }
     sleepms(5);
     std_msgs::Int32 msg;
-    msg.data = counts;
+    msg.data = mvolts;
     voltage_pub.publish(msg);
 }
 

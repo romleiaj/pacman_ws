@@ -16,15 +16,9 @@
 [submodule "src/imu_tools"]
 	path = src/imu_tools
 	url = https://github.com/ccny-ros-pkg/imu_tools
-[submodule "src/pointcloud_to_laserscan"]
-	path = src/pointcloud_to_laserscan
-	url = https://github.com/ros-perception/pointcloud_to_laserscan
 [submodule "src/ouster_example"]
 	path = src/ouster_example
 	url = https://github.com/romleiaj/ouster_example.git
 [submodule "src/twist_mux"]
 	path = src/twist_mux
 	url = https://github.com/ros-teleop/twist_mux.git
-[submodule "src/dependencies/catkin_simple"]
-	path = src/dependencies/catkin_simple
-	url = https://github.com/catkin/catkin_simple
