@@ -1,24 +1,50 @@
 # pacman_ws
-The PACMAN (Path Assembling Cartographer, Mapping under Autonomous Navigation). 
+PACMAN (Path Assembling Cartographer, Mapping under Autonomous Navigation) is a self-driving ground robot capable of two main areas of expertise: indoors and outdoors. Outdoors, the robot is capable of following a path, specifically paved sidewalks, and returning real-world coordinates of that path back to a ground station (such as a remote PC). These real-world coordinates can be saved and distributed to other systems that require the absolute position of pathways. Such systems include autonomous lawnmowers, autonomous snow removers, autonomous delivery robots, and others. Indoors, the robot is capable of traversing hallways and generating a 3D-Model of the interior of the building (provided in a BIM-compatible format).
 
-## Purpose
+## Getting Started
+Since this is a ROS (Robot Operating System) workspace, you must have a functioning ROS environment on your PC. This workspace was only tested on Ubuntu 18.04 with ROS Melodic. When running on a Jetson system, ensure to set power mode to max, `sudo nvpmodel -m 0`. 
+To run all required runscripts, the following packages are required:
+* ros-melodic-robot-state-publisher
+* ros-melodic-joint-state-publisher
+* tmux
+* supervisor
+* python-catkin-tools
+And the following Python packages are required:
+* numpy 1.13.3
+* scipy
+* ps4drv
+* yacs
+* tqdm
+In order to build all required components:
+1. $ `cd ~`
+2. $ `git clone --recursive https://github.com/romleiaj/pacman_ws`
+3. $ `cd pacman_ws`
+4. $ `catkin build`
+
+
+## Components
 This workspace hosts all software and utilities to enable PACMAN to operate.
 PACMAN consists of the following components:
-1. Wheelchair base
-2. Jetson TX2
-3. RGB cameras
-4. Single-Line 360 degree LiDAR
-5. Cradlepoint Router
+1. GOLDEN Wheelchair base
+2. Jetson Xavier - 16 Gb
+3. Logitech C920 Webcam
+4. Ouster OS1-16 LiDAR
+5. Cradlepoint Cellular Router
+6. Swiftnav Duro RTK GPS
+7. Two 12V 50Ah batteries in series
+8. Roboteq MDC2230 Motor Controller
+9. Pair of US Digital E3 Motor Encoders
+10. Pair of 24V 135RPM DC Motors
 
-## Simuation
-In order to simuate the pacman vehicle through Gazebo simulation software, you must download the latest version of Gazebo alongside with its ROS packages. Note: the full desktop version of ROS include Gazebo software (therefore an intall is not necessary).
+## Simulation
+In order to simulate the pacman vehicle through Gazebo simulation software, you must download the latest version of Gazebo alongside with its ROS packages. Note: the full desktop version of ROS includes Gazebo software (therefore an install is not necessary).
 
 To install Gazebo (Ubuntu):
 ```
 curl -sSL http://get.gazebosim.org | sh
 ```
 
-To to run the simulation of the vehicle with this repository, you must also download the vehicle model (which is not included in the git repository). The SDF folder for the model is located within this google drive directory of Sdf Files: [SDF Files](https://drive.google.com/open?id=1xschITUsA2JVnLQphrNJv-SwWNVNDtrY). Please download the entirety of the pacman folder within this linked directory.
+To run the simulation of the vehicle with this repository, you must also download the vehicle model (which is not included in the git repository). The SDF folder for the model is located within this google drive directory of Sdf Files: [SDF Files](https://drive.google.com/open?id=1xschITUsA2JVnLQphrNJv-SwWNVNDtrY). Please download the entirety of the pacman folder within this linked directory.
 
 This folder (pacman) must be moved under the models folder: 
 ```
