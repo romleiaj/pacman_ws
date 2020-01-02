@@ -1,6 +1,6 @@
-<object data="/data/Documentation/Final Poster.pdf" type="application/pdf" width="700px" height="700px">
-    <embed src="/data/Documentation/Final Poster.pdf">
-        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="/data/Documentation/Final Poster.pdf">Download PDF</a>.</p>
+<object data="/data/Documentation/Final Poster.pptx.pdf" type="application/pdf" width="700px" height="700px">
+    <embed src="/data/Documentation/Final Poster.pptx.pdf">
+        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="/data/Documentation/Final Poster.pptx.pdf">Download PDF</a>.</p>
     </embed>
 </object>
 
