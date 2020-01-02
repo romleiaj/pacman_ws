@@ -10,13 +10,15 @@ To run all required runscripts, the following packages are required:
 * tmux
 * supervisor
 * python-catkin-tools
+
 And the following Python packages are required:
 * numpy 1.13.3
 * scipy
 * ps4drv
 * yacs
 * tqdm
-In order to build all required components:
+
+To build all required components:
 1. $ `cd ~`
 2. $ `git clone --recursive https://github.com/romleiaj/pacman_ws`
 3. $ `cd pacman_ws`
@@ -40,7 +42,6 @@ PACMAN consists of the following components:
 ## Simulation
 <img src="/data/Visualization/top-down-path.png" alt="path" align="left" height="273">
 <img src="/data/Visualization/pacman-sidewalk.png" alt="pacmanonpath" align="right" height="273">
-&nbsp;
 &nbsp;
 
 To simulate the pacman vehicle through Gazebo simulation software, you must download the latest version of Gazebo alongside with its ROS packages. Note: the full desktop version of ROS includes Gazebo software (therefore an install is not necessary).
