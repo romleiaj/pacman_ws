@@ -38,8 +38,9 @@ PACMAN consists of the following components:
 10. Pair of 24V 135RPM DC Motors
 
 ## Simulation
-<img src="/data/Visualization/top-down-path.png" alt="path" align="left" height="275">
-<img src="/data/Visualization/pacman-sidewalk.png" alt="pacmanonpath" align="right" height="275">
+<img src="/data/Visualization/top-down-path.png" alt="path" align="left" height="273">
+<img src="/data/Visualization/pacman-sidewalk.png" alt="pacmanonpath" align="right" height="273">
+&nbsp;
 &nbsp;
 
 To simulate the pacman vehicle through Gazebo simulation software, you must download the latest version of Gazebo alongside with its ROS packages. Note: the full desktop version of ROS includes Gazebo software (therefore an install is not necessary).
@@ -67,7 +68,6 @@ roslaunch pacman_simulation my_world.launch
 <img src="/data/Visualization/gps-track.png" alt="gps" align="center">
 &nbsp;
 <img src="/data/Visualization/path-indoors.png" alt="pathi" align="left" height="225">
-&nbsp;
 <img src="/data/Visualization/path-planned.png" alt="pathp" align="right" height="225">
 &nbsp;
 <img src="/data/Visualization/rviz-nav.png" alt="rviznav" align="center">
