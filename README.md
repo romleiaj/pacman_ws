@@ -1,10 +1,4 @@
-<object data="/data/Documentation/Final Poster.pptx.pdf" type="application/pdf" width="700px" height="700px">
-    <embed src="/data/Documentation/Final Poster.pptx.pdf">
-        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="/data/Documentation/Final Poster.pptx.pdf">Download PDF</a>.</p>
-    </embed>
-</object>
-
-<img src="/data/Visualization/pacman.png" alt="pacman" align="right" width="300">
+<img src="/data/Documentation/cropped_poster.png" alt="poster" align="center">
 
 PACMAN (Path Assembling Cartographer, Mapping under Autonomous Navigation) is a self-driving ground robot capable of following a path, specifically paved sidewalks, and returning real-world coordinates of that path back to a ground station (such as a remote PC). These real-world coordinates can be saved and distributed to other systems that require the absolute position of pathways. Such systems include autonomous lawnmowers, autonomous snow removers, autonomous delivery robots, and others.
 
