@@ -1,5 +1,6 @@
-# pacman_ws
-PACMAN (Path Assembling Cartographer, Mapping under Autonomous Navigation) is a self-driving ground robot capable of two main areas of expertise: indoors and outdoors. Outdoors, the robot is capable of following a path, specifically paved sidewalks, and returning real-world coordinates of that path back to a ground station (such as a remote PC). These real-world coordinates can be saved and distributed to other systems that require the absolute position of pathways. Such systems include autonomous lawnmowers, autonomous snow removers, autonomous delivery robots, and others. Indoors, the robot is capable of traversing hallways and generating a 3D-Model of the interior of the building (provided in a BIM-compatible format).
+<img src="/data/Visualization/pacman.png" alt="pacman" align="right" width="300">
+
+PACMAN (Path Assembling Cartographer, Mapping under Autonomous Navigation) is a self-driving ground robot capable of following a path, specifically paved sidewalks, and returning real-world coordinates of that path back to a ground station (such as a remote PC). These real-world coordinates can be saved and distributed to other systems that require the absolute position of pathways. Such systems include autonomous lawnmowers, autonomous snow removers, autonomous delivery robots, and others.
 
 ## Getting Started
 Since this is a ROS (Robot Operating System) workspace, you must have a functioning ROS environment on your PC. This workspace was only tested on Ubuntu 18.04 with ROS Melodic. When running on a Jetson system, ensure to set power mode to max, `sudo nvpmodel -m 0`. 
@@ -37,29 +38,17 @@ PACMAN consists of the following components:
 10. Pair of 24V 135RPM DC Motors
 
 ## Simulation
-In order to simulate the pacman vehicle through Gazebo simulation software, you must download the latest version of Gazebo alongside with its ROS packages. Note: the full desktop version of ROS includes Gazebo software (therefore an install is not necessary).
+<img src="/data/Visualization/top-down-path.png" alt="path" align="left" height="275">
+<img src="/data/Visualization/pacman-sidewalk.png" alt="pacmanonpath" align="right" height="275">
+&nbsp;
+
+To simulate the pacman vehicle through Gazebo simulation software, you must download the latest version of Gazebo alongside with its ROS packages. Note: the full desktop version of ROS includes Gazebo software (therefore an install is not necessary).
 
 To install Gazebo (Ubuntu):
 ```
 curl -sSL http://get.gazebosim.org | sh
 ```
-
-To run the simulation of the vehicle with this repository, you must also download the vehicle model (which is not included in the git repository). The SDF folder for the model is located within this google drive directory of Sdf Files: [SDF Files](https://drive.google.com/open?id=1xschITUsA2JVnLQphrNJv-SwWNVNDtrY). Please download the entirety of the pacman folder within this linked directory.
-
-This folder (pacman) must be moved under the models folder: 
-```
-pacman_ws/src/pacman_simulation/models
-```
-The models directory should look similar to this:
-```
-models/
-	pacman/
-		model.config
-		model.sdf
-		meshes/
-		materials/
-```
-Make sure to catkin_make within the pacman_ws folder to procede (fill in \<path to pacman_ws\> with the corresponding path to the pacman workspace). Then, source the /devel/setup.bash folder:
+Make sure to `catkin build` within the pacman_ws folder to procede (fill in \<path to pacman_ws\> with the corresponding path to the pacman workspace). Then, source the /devel/setup.bash folder:
 ```
 cd <path to pacman_ws>
 source devel/setup.bash
@@ -72,3 +61,13 @@ roslaunch pacman_simulation my_world.launch
 ## Operation
 
 ## Results
+
+<img src="/data/Visualization/orig_plus_seg.png" alt="segment" align="center" height="300">
+&nbsp;
+<img src="/data/Visualization/gps-track.png" alt="gps" align="center">
+&nbsp;
+<img src="/data/Visualization/path-indoors.png" alt="pathi" align="left" height="225">
+&nbsp;
+<img src="/data/Visualization/path-planned.png" alt="pathp" align="right" height="225">
+&nbsp;
+<img src="/data/Visualization/rviz-nav.png" alt="rviznav" align="center">
