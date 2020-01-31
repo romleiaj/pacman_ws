@@ -41,7 +41,7 @@ PACMAN consists of the following components:
 
 ## Simulation
 <img src="/data/Visualization/top-down-path.png" alt="path" align="left" height="273">
-<img src="/data/Visualization/pacman-sidewalk.png" alt="pacmanonpath" align="right" height="275">
+<img src="/data/Visualization/pacman-sidewalk.png" alt="pacmanonpath" align="right" height="274">
 &nbsp;
 
 To simulate the pacman vehicle through Gazebo simulation software, you must download the latest version of Gazebo alongside with its ROS packages. Note: the full desktop version of ROS includes Gazebo software (therefore an install is not necessary).
