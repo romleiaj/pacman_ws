@@ -40,8 +40,10 @@ PACMAN consists of the following components:
 10. Pair of 24V 135RPM DC Motors
 
 ## Simulation
-<img src="/data/Visualization/top-down-path.png" alt="path" align="left" height="273">
-<img src="/data/Visualization/pacman-sidewalk.png" alt="pacmanonpath" align="right" height="274">
+Simulation Path            |  3D Model on Path
+:-------------------------:|:-------------------------:
+![](/data/Visualization/top-down-path.png)  |  ![](/data/Visualization/pacman-sidewalk.png)
+
 &nbsp;
 
 To simulate the pacman vehicle through Gazebo simulation software, you must download the latest version of Gazebo alongside with its ROS packages. Note: the full desktop version of ROS includes Gazebo software (therefore an install is not necessary).
@@ -74,12 +76,16 @@ that all must be launched in order for the system to be operational. Each of the
 These scripts are currently started at boot using `supervisord`, a process control program. This launch is controlled by the `supervisor.conf` located in the same directory. This is symlinked to a file in the home directory of the Xavier, which is then trampolined up to the `/etc/supervisor/conf.d/` to dodge privileges conflicts by using version control.
 
 ## Results
-
+Segmentation as Probabilities
 <img src="/data/Visualization/orig_plus_seg.png" alt="segment" align="center" height="300">
-&nbsp;
+
+GPS Track Visualized in Google Maps
 <img src="/data/Visualization/gps-track.png" alt="gps" align="center">
-&nbsp;
-<img src="/data/Visualization/path-indoors.png" alt="pathi" align="left" height="225">
-<img src="/data/Visualization/path-planned.png" alt="pathp" align="right" height="225">
-&nbsp;
+
+Segmented Path                       | After Warp and with Dijstra Planned Path
+:-----------------------------------:|:-----------------------------------:
+![](/data/Visualization/path-indoors.png)  |  ![](/data/Visualization/path-planned.png)
+
+
+Rviz Representation of 3x3m Square Commands
 <img src="/data/Visualization/rviz-nav.png" alt="rviznav" align="center">
