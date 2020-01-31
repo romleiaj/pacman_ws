@@ -41,7 +41,7 @@ PACMAN consists of the following components:
 
 ## Simulation
 <img src="/data/Visualization/top-down-path.png" alt="path" align="left" height="273">
-<img src="/data/Visualization/pacman-sidewalk.png" alt="pacmanonpath" align="right" height="273">
+<img src="/data/Visualization/pacman-sidewalk.png" alt="pacmanonpath" align="right" height="275">
 &nbsp;
 
 To simulate the pacman vehicle through Gazebo simulation software, you must download the latest version of Gazebo alongside with its ROS packages. Note: the full desktop version of ROS includes Gazebo software (therefore an install is not necessary).
@@ -61,6 +61,17 @@ roslaunch pacman_simulation my_world.launch
 ```
 
 ## Operation
+
+To run the PACMAN system, there are many bash runscripts located within `/src/runscripts/jetson/` that must be run locally on the Jetson Xavier. There are 4 main scripts, 
+```
+tmux_core.sh
+tmux_analytics.sh
+tmux_navigation.sh
+tmux_sensors.sh
+```
+that all must be launched in order for the system to be operational. Each of these scripts starts a tmux session, and starts multiple processes in separate windows within that session. This allows for individual process monitoring, as well as restarting individual processes, and a stable environment to work in via SSH.
+
+These scripts are currently started at boot using `supervisord`, a process control program. This launch is controlled by the `supervisor.conf` located in the same directory. This is symlinked to a file in the home directory of the Xavier, which is then trampolined up to the `/etc/supervisor/conf.d/` to dodge privileges conflicts by using version control.
 
 ## Results
 
